@@ -1,0 +1,4 @@
+<resources>
+    <string name="but_connect">연결</string>
+    <string name="but_connected">연결 됨</string>
+</resources>

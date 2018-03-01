@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">FTMinesweeper</string>
+    <string name="app_name" translatable="false">FTMinesweeper</string>
+    <string name="but_connect">Connect</string>
+    <string name="but_connected">Connected</string>
 </resources>
