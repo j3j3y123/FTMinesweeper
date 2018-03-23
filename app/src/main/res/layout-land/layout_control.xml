@@ -9,13 +9,19 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@drawable/back">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/center" />
     </GridLayout>
 
     <LinearLayout
         android:id="@+id/layout_btn"
-        android:layout_width="match_parent"
+        android:layout_width="+"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
