@@ -7,12 +7,13 @@
     android:gravity="center">
 
     <RelativeLayout
+        android:id="@+id/layout_left"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:background="@drawable/back">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/left_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -78,12 +79,13 @@
     </android.support.constraint.ConstraintLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_right"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:background="@drawable/back">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/right_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
