@@ -15,3 +15,4 @@ public class ControlActivity extends AppCompatActivity{
         setContentView(R.layout.layout_control);
     }
 }
+//dgh
