@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mConnectionStatus;
     private EditText mInputEditText;
+
     ConnectedTask mConnectedTask = null;
     static BluetoothAdapter mBluetoothAdapter;
     private String mConnectedDeviceName = null;
@@ -340,6 +341,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.dismiss();
                 if ( isConnectionError  ) {
                     isConnectionError = false;
+                    finish();
                 }
             }
         });

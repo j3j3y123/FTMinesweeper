@@ -18,4 +18,5 @@
     <string name="btn_stop">stop</string>
     <string name="btn_connect">connect</string>
     <string name="btn_exit">exit</string>
+    <string name="btn_disconnect">disconnect</string>
 </resources>
