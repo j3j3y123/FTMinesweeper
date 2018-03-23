@@ -13,4 +13,8 @@
     <string name="title_connecting">연결 중...</string>
     <string name="title_not_connected">연결 안됨</string>
     <string name="not_connected">기기에 연결하지 못했습니다</string>
+    <string name="btn_setting">설정</string>
+    <string name="btn_stop">출력중단</string>
+    <string name="btn_connect">연결</string>
+    <string name="btn_exit">나가기</string>
 </resources>

@@ -14,4 +14,8 @@
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving FTMinesweeper</string>
     <string name="title_connecting">connecting...</string>
     <string name="title_not_connected">not connected</string>
+    <string name="btn_setting">setting</string>
+    <string name="btn_stop">stop</string>
+    <string name="btn_connect">connect</string>
+    <string name="btn_exit">exit</string>
 </resources>
