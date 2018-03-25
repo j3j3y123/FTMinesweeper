@@ -18,42 +18,19 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/center" />
+
     </RelativeLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="100dp"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_exit"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="@string/btn_exit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_setting" />
-
-        <Button
-            android:id="@+id/btn_setting"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="@string/btn_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_stop" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_connect"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="50dp"
@@ -66,7 +43,7 @@
         <Button
             android:id="@+id/btn_stop"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -76,7 +53,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_connect" />
 
-    </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/btn_setting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_stop" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/btn_exit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_setting" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layout_right"
