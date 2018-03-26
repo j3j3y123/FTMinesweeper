@@ -37,8 +37,8 @@ public class ControlActivity extends AppCompatActivity {
 
         final TextView auto_i = (TextView) findViewById(R.id.auto_i);
 
-        RelativeLayout left_layout = (RelativeLayout) findViewById(R.id.layout_left);
-        RelativeLayout right_layout = (RelativeLayout) findViewById(R.id.layout_right);
+        final RelativeLayout left_layout = (RelativeLayout) findViewById(R.id.layout_left);
+        final RelativeLayout right_layout = (RelativeLayout) findViewById(R.id.layout_right);
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -74,11 +74,12 @@ public class ControlActivity extends AppCompatActivity {
                         left_oldXvalue = event.getRawX();
                         left_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
-                        left_btn.setX(0);
-                        left_btn.setY(0);
-                    case MotionEvent.ACTION_UP :
                         left_btn.setX(event.getRawX()-left_oldXvalue);
                         left_btn.setY(event.getRawY()-left_oldYvalue);
+                        return true;
+                    case MotionEvent.ACTION_UP :
+                        left_btn.setX(0 + left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
+                        left_btn.setY(0 + left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
                 }
                 return true;
             }
@@ -96,8 +97,7 @@ public class ControlActivity extends AppCompatActivity {
                         right_btn.setY(right_event.getRawY()-right_oldYvalue);
                         return true;
                     case MotionEvent.ACTION_UP :
-                        right_btn.setX(0);
-                        //right_btn.setY(0);
+                        right_btn.setX(0 + right_layout.getHeight() / 2 - right_btn.getWidth() / 2);
                 }
                 return true;
             }
