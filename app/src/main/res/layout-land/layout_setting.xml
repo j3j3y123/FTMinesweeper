@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="119dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_horizontalwing"
-            android:textAlignment="viewStart" />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/text_verticalwing"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_verticalwing"
-            android:textAlignment="viewStart" />
+            android:textAlignment="center" />
 
     </LinearLayout>
 
