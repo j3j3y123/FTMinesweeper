@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
 
 public class ControlActivity extends AppCompatActivity {
 
@@ -14,6 +17,8 @@ public class ControlActivity extends AppCompatActivity {
     float left_oldYvalue;
     float right_oldXvalue;
     float right_oldYvalue;
+
+    int ao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +31,40 @@ public class ControlActivity extends AppCompatActivity {
         final Button connect_btn = (Button) findViewById(R.id.btn_connect);
         final Button stop_btn = (Button) findViewById(R.id.btn_stop);
 
+        final SeekBar auto_d = (SeekBar) findViewById(R.id.auto_d);
+
+        final Switch auto_s = (Switch) findViewById(R.id.auto_s);
+
+        final TextView auto_i = (TextView) findViewById(R.id.auto_i);
+
         RelativeLayout left_layout = (RelativeLayout) findViewById(R.id.layout_left);
         RelativeLayout right_layout = (RelativeLayout) findViewById(R.id.layout_right);
+
+        auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                ao = auto_d.getProgress();
+                auto_i.setText(""+ao);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                ao = auto_d.getProgress();
+                auto_i.setText(""+ao);
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                ao = auto_d.getProgress();
+                auto_i.setText(""+ao);
+
+            }
+        });
 
         left_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -60,11 +97,12 @@ public class ControlActivity extends AppCompatActivity {
                         return true;
                     case MotionEvent.ACTION_UP :
                         right_btn.setX(0);
-                        right_btn.setY(0);
+                        //right_btn.setY(0);
                 }
                 return true;
             }
         });
+
     }
 
     /*
