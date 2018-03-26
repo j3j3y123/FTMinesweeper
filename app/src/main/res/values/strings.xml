@@ -19,4 +19,7 @@
     <string name="btn_connect">connect</string>
     <string name="btn_exit">exit</string>
     <string name="btn_disconnect">disconnect</string>
+    <string name="text_mainwing">main wing</string>
+    <string name="text_horizontalwing">horizontal wing</string>
+    <string name="text_verticalwing">vertical wing</string>
 </resources>

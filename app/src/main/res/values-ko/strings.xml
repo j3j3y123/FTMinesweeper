@@ -18,4 +18,7 @@
     <string name="btn_connect">연결</string>
     <string name="btn_exit">나가기</string>
     <string name="btn_disconnect">연결종료</string>
+    <string name="text_mainwing">주날개 설정</string>
+    <string name="text_horizontalwing">수평꼬리날개 설정</string>
+    <string name="text_verticalwing">수직꼬리날개 설정</string>
 </resources>
