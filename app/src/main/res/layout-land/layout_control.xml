@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/layout_auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -18,7 +20,7 @@
             android:layout_width="29dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Auto"
+            android:text="@string/switch_auto"
             android:textAlignment="center" />
 
         <SeekBar
@@ -38,6 +40,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_stick"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -47,7 +50,8 @@
             android:id="@+id/layout_left"
             android:layout_width="230dp"
             android:layout_height="230dp"
-            android:background="@drawable/back">
+            android:background="@drawable/back"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/left_btn"
@@ -57,44 +61,18 @@
                 app:srcCompat="@drawable/center" />
         </RelativeLayout>
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="100dp"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_exit"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:text="@string/btn_exit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_setting" />
-
-            <Button
-                android:id="@+id/btn_setting"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:text="@string/btn_setting"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_stop" />
+        <LinearLayout
+            android:id="@+id/layout_button"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_connect"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:text="@string/btn_connect"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,24 +80,45 @@
 
             <Button
                 android:id="@+id/btn_stop"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/btn_exit"
+                android:layout_weight="0"
                 android:text="@string/btn_stop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_connect" />
 
-        </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_setting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_stop" />
+
+            <Button
+                android:id="@+id/btn_exit"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btn_connect"
+                android:layout_alignStart="@+id/btn_connect"
+                android:layout_weight="0"
+                android:text="@string/btn_exit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_setting" />
+
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/layout_right"
             android:layout_width="230dp"
             android:layout_height="230dp"
-            android:background="@drawable/back">
+            android:background="@drawable/back"
+            android:gravity="bottom|center">
 
             <ImageView
                 android:id="@+id/right_btn"

@@ -22,4 +22,5 @@
     <string name="text_mainwing">main wing</string>
     <string name="text_horizontalwing">horizontal wing</string>
     <string name="text_verticalwing">vertical wing</string>
+    <string name="switch_auto">Auto</string>
 </resources>

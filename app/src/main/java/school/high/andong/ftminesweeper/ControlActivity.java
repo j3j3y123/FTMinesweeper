@@ -1,11 +1,13 @@
 package school.high.andong.ftminesweeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -25,44 +27,72 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_control);
 
-        final ImageView left_btn = (ImageView) findViewById(R.id.left_btn);
-        final ImageView right_btn  = (ImageView) findViewById(R.id.right_btn);
+        final ImageView left_btn = findViewById(R.id.left_btn);
+        final ImageView right_btn  = findViewById(R.id.right_btn);
 
-        final Button connect_btn = (Button) findViewById(R.id.btn_connect);
-        final Button stop_btn = (Button) findViewById(R.id.btn_stop);
+        final Button connect_btn = findViewById(R.id.btn_connect);
+        final Button stop_btn = findViewById(R.id.btn_stop);
+        final Button setting_btn = findViewById(R.id.btn_setting);
 
-        final SeekBar auto_d = (SeekBar) findViewById(R.id.auto_d);
+        final SeekBar auto_d = findViewById(R.id.auto_d);
 
-        final Switch auto_s = (Switch) findViewById(R.id.auto_s);
+        final Switch auto_s = findViewById(R.id.auto_s);
 
-        final TextView auto_i = (TextView) findViewById(R.id.auto_i);
+        final TextView auto_i = findViewById(R.id.auto_i);
 
-        final RelativeLayout left_layout = (RelativeLayout) findViewById(R.id.layout_left);
-        final RelativeLayout right_layout = (RelativeLayout) findViewById(R.id.layout_right);
+        final RelativeLayout left_layout = findViewById(R.id.layout_left);
+        final RelativeLayout right_layout = findViewById(R.id.layout_right);
+
+        final LinearLayout device = findViewById(R.id.layout_all);
+        final LinearLayout auto_layout = findViewById(R.id.layout_auto);
+        final LinearLayout stick_layout = findViewById(R.id.layout_stick);
+
+        final LinearLayout button_layout = findViewById(R.id.layout_button);
+
+        auto_i.setText("00°");
+
+        left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
+        left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
+        right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
+        right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
+
+        setting_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),SettingActivity.class), true);
+
+            }
+        });
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
                 ao = auto_d.getProgress();
-                auto_i.setText(""+ao);
-
+                if (ao < 10) {
+                    auto_i.setText("0" + ao + "°");
+                } else {
+                    auto_i.setText("" + ao + "°");
+                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
                 ao = auto_d.getProgress();
-                auto_i.setText(""+ao);
-
+                if (ao < 10) {
+                    auto_i.setText("0" + ao + "°");
+                } else {
+                    auto_i.setText("" + ao + "°");
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
                 ao = auto_d.getProgress();
-                auto_i.setText(""+ao);
-
+                if (ao < 10) {
+                    auto_i.setText("0" + ao + "°");
+                } else {
+                    auto_i.setText("" + ao + "°");
+                }
             }
         });
 
@@ -74,12 +104,12 @@ public class ControlActivity extends AppCompatActivity {
                         left_oldXvalue = event.getRawX();
                         left_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
-                        left_btn.setX(event.getRawX()-left_oldXvalue);
-                        left_btn.setY(event.getRawY()-left_oldYvalue);
+                        left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                        left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
                         return true;
                     case MotionEvent.ACTION_UP :
-                        left_btn.setX(0 + left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
-                        left_btn.setY(0 + left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
+                        left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
+                        left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
                 }
                 return true;
             }
@@ -93,16 +123,21 @@ public class ControlActivity extends AppCompatActivity {
                         right_oldXvalue = right_event.getRawX();
                         right_oldYvalue = right_event.getRawY();
                     case MotionEvent.ACTION_MOVE :
-                        right_btn.setX(right_event.getRawX()-right_oldXvalue);
-                        right_btn.setY(right_event.getRawY()-right_oldYvalue);
-                        return true;
+                            right_btn.setX(right_event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
+                            right_btn.setY(right_event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                            return true;
                     case MotionEvent.ACTION_UP :
-                        right_btn.setX(0 + right_layout.getHeight() / 2 - right_btn.getWidth() / 2);
+                        right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
                 }
                 return true;
             }
         });
 
+    }
+
+    public void startActivity(Intent intent, boolean deleteThis) {
+        super.startActivity(intent);
+        if(deleteThis);
     }
 
     /*
