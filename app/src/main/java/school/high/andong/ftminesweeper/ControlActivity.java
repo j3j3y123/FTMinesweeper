@@ -262,3 +262,4 @@ public class ControlActivity extends AppCompatActivity {
       다른 창을 열었을 때의 이 스크린의 명령
      */
 }
+//
