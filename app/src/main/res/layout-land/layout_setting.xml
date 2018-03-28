@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +10,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/information_text_1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/information_text_2"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/text_mainwing"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,7 +40,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/mainwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -38,7 +55,6 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text_verticalwing"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,7 +62,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/verticalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +79,6 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/text_horizontalwing"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,7 +86,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/horizontalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,18 +101,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_apply"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="Button" />
+            android:text="@string/btn_apply" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_default"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="Button" />
+            android:text="@string/btn_default" />
     </LinearLayout>
 
 </LinearLayout>

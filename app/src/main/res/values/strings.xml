@@ -14,13 +14,17 @@
     <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving FTMinesweeper</string>
     <string name="title_connecting">connecting...</string>
     <string name="title_not_connected">not connected</string>
-    <string name="btn_setting">setting</string>
-    <string name="btn_stop">stop</string>
-    <string name="btn_connect">connect</string>
-    <string name="btn_exit">exit</string>
-    <string name="btn_disconnect">disconnect</string>
-    <string name="text_mainwing">main wing</string>
-    <string name="text_horizontalwing">horizontal wing</string>
-    <string name="text_verticalwing">vertical wing</string>
+    <string name="btn_setting">Setting</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_connect">Connect</string>
+    <string name="btn_exit">Exit</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="btn_default">Default</string>
+    <string name="btn_apply">Apply</string>
+    <string name="text_mainwing">Main Wing</string>
+    <string name="text_horizontalwing">Horizontal Wing</string>
+    <string name="text_verticalwing">Vertical Wing</string>
     <string name="switch_auto">Auto</string>
+    <string name="information_text_1">Andong High School/Team.Minesweeper V.2</string>
+    <string name="information_text_2">Beta ver.1</string>
 </resources>

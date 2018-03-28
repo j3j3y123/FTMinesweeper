@@ -66,13 +66,20 @@ public class ControlActivity extends AppCompatActivity {
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SettingActivity.class), true);
+                startActivity(new Intent(getApplicationContext(), SettingActivity.class), true);
 
             }
         });
         /*
           설정 버튼 눌렀을때 설정으로 이동
          */
+
+        stop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class), true);
+            }
+        });
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
