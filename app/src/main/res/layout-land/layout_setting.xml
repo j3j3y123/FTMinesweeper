@@ -8,6 +8,26 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_inpormation"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_beta"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,7 +43,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/text_mainwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,18 +106,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_accept"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="0"
-            android:text="Button" />
+            android:text="@string/btn_accept" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_default"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="Button" />
+            android:text="@string/btn_default" />
     </LinearLayout>
 
 </LinearLayout>

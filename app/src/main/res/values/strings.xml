@@ -23,4 +23,7 @@
     <string name="text_horizontalwing">horizontal wing</string>
     <string name="text_verticalwing">vertical wing</string>
     <string name="switch_auto">Auto</string>
+    <string name="btn_accept">accept</string>
+    <string name="text_inpormation">Andong Highschool - Team.minesweeper V.2</string>
+    <string name="text_beta">Beta ver.1</string>
 </resources>

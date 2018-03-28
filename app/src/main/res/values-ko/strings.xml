@@ -22,4 +22,8 @@
     <string name="text_horizontalwing">수평꼬리날개 설정</string>
     <string name="text_verticalwing">수직꼬리날개 설정</string>
     <string name="switch_auto">자동</string>
+    <string name="btn_accept">적용</string>
+    <string name="btn_default">기본값</string>
+    <string name="text_inpormation">안동고등학교 Team. 지뢰찾기 V.2 (최재진, 유건민, 이수용, 이우창, 정재욱, 최재현)</string>
+    <string name="text_beta">Beta ver.1</string>
 </resources>
