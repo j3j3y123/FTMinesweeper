@@ -15,7 +15,9 @@ public class SettingActivity extends AppCompatActivity{
 
         final Button accept_btn = findViewById(R.id.btn_accept);
         final Button default_btn = findViewById(R.id.btn_default);
-        final EditText mainwing_text = findViewById(R.id.text_mainwing);
+        final EditText edittext_mainwing = findViewById(R.id.edittext_mainwing);
+        final EditText edittext_horizontalwing = findViewById(R.id.edittext_horizontalwing);
+        final EditText edittext_verticalwing = findViewById(R.id.edittext_verticalwing);
 
         accept_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,7 +29,9 @@ public class SettingActivity extends AppCompatActivity{
         default_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainwing_text.setText("0");
+                edittext_mainwing.setText("0");
+                edittext_horizontalwing.setText("0");
+                edittext_verticalwing.setText("0");
             }
         });
     }
