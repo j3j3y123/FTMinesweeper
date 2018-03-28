@@ -19,8 +19,11 @@
     <string name="btn_exit">나가기</string>
     <string name="btn_disconnect">연결종료</string>
     <string name="text_mainwing">주날개 설정</string>
+    <string name="edittext_mainwing">주날개 설정값</string>
     <string name="text_horizontalwing">수평꼬리날개 설정</string>
+    <string name="eidttext_horizontalwing">수평꼬리날개 설정값</string>
     <string name="text_verticalwing">수직꼬리날개 설정</string>
+    <string name="edittext_verticalwing">수직꼬리날개 설정값</string>
     <string name="switch_auto">자동</string>
     <string name="btn_accept">적용</string>
     <string name="btn_default">기본값</string>

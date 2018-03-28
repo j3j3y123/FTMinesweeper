@@ -43,7 +43,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/text_mainwing"
+            android:id="@+id/edittext_mainwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -66,7 +66,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/edittext_horzantalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,7 +91,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/edittext_verticalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

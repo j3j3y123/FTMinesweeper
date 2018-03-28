@@ -20,8 +20,11 @@
     <string name="btn_exit">exit</string>
     <string name="btn_disconnect">disconnect</string>
     <string name="text_mainwing">main wing</string>
+    <string name="edittext_mainwing">edit main wing</string>
     <string name="text_horizontalwing">horizontal wing</string>
+    <string name="edittext_horizontalwing">edit horizontal wing</string>
     <string name="text_verticalwing">vertical wing</string>
+    <string name="edittext_verticalwing">edit vertical wing</string>
     <string name="switch_auto">Auto</string>
     <string name="btn_accept">accept</string>
     <string name="text_inpormation">Andong Highschool - Team.minesweeper V.2</string>
