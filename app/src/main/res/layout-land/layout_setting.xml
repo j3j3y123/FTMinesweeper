@@ -66,7 +66,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/edittext_horzantalwing"
+            android:id="@+id/edittext_verticalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,7 +91,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/edittext_verticalwing"
+            android:id="@+id/edittext_horizontalwing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
