@@ -15,12 +15,19 @@ import android.widget.TextView;
 
 public class ControlActivity extends AppCompatActivity {
 
+    String send_blue; //블루투스에 전송될 문자열
+
     float left_oldXvalue;
     float left_oldYvalue;
     float right_oldXvalue;
     float right_oldYvalue;
 
-    int ao;
+    int rx; //BL모터의 조종 값
+    int ly; //주 날개 서보의 조종 값
+    int lx; //수평 꼬리 날개 서보의 조종 값
+    int ry; //수직 꼬리 날개 서보의 조종 값
+    int ao; //오토파일럿 On, Off 값
+    int ad; //오토파일럿 각도 값
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,9 @@ public class ControlActivity extends AppCompatActivity {
 
             }
         });
+        /*
+          설정 버튼 눌렀을때 설정으로 이동
+         */
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -95,6 +105,9 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
         });
+        /*
+          상단 자동 시크바를 움직일 때 옆에 있는 텍스트 값 변경
+         */
 
         left_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -104,9 +117,53 @@ public class ControlActivity extends AppCompatActivity {
                         left_oldXvalue = event.getRawX();
                         left_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
-                        left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                        left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                        return true;
+                        if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
+                            left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                            left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
+                            left_btn.setX(0);
+                            left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                            left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                            left_btn.setY(0);
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                            left_btn.setX(0);
+                            left_btn.setY(0);
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 ||
+                                event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth()){
+                            if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0){
+                                left_btn.setX(0);
+                                left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                                return true;
+                            } else {
+                                left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                                left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                                return true;
+                            }
+                        } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0 ||
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
+                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                                left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                                left_btn.setY(0);
+                                return true;
+                            } else {
+                                left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                                left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                                return true;
+                            }
+                        } else {
+                            left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                            left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                            return true;
+                        }
                     case MotionEvent.ACTION_UP :
                         left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
                         left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
@@ -114,84 +171,80 @@ public class ControlActivity extends AppCompatActivity {
                 return true;
             }
         });
+        /*
+          좌측 조이스틱 움직임
+         */
 
         right_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View right_view, MotionEvent right_event) {
-                switch (right_event.getAction()) {
+            public boolean onTouch(View right_view, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN :
-                        right_oldXvalue = right_event.getRawX();
-                        right_oldYvalue = right_event.getRawY();
+                        right_oldXvalue = event.getRawX();
+                        right_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
-                            right_btn.setX(right_event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                            right_btn.setY(right_event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                        if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
+                            right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
+                            right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
                             return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
+                            right_btn.setX(0);
+                            right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                            right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
+                            right_btn.setY(0);
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                            right_btn.setX(0);
+                            right_btn.setY(0);
+                            return true;
+                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 ||
+                                event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth()){
+                            if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0){
+                                right_btn.setX(0);
+                                right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
+                                return true;
+                            } else {
+                                right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
+                                right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
+                                return true;
+                            }
+                        } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0 ||
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
+                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                                right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
+                                right_btn.setY(0);
+                                return true;
+                            } else {
+                                right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
+                                right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
+                                return true;
+                            }
+                        } else {
+                            right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
+                            right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
+                            return true;
+                        }
                     case MotionEvent.ACTION_UP :
                         right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
                 }
                 return true;
             }
         });
-
+        /*
+          우측 조이스틱 움직임
+         */
     }
 
     public void startActivity(Intent intent, boolean deleteThis) {
         super.startActivity(intent);
-        if(deleteThis);
     }
-
     /*
-    float left_oldXvalue;
-    float left_oldYvalue;
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int width = ((ViewGroup) v.getParent()).getWidth() - v.getWidth();
-        int height = ((ViewGroup) v.getParent()).getHeight() - v.getHeight();
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            left_oldXvalue = event.getX();
-            left_oldYvalue = event.getY();
-            //Log.i("Tag1", "Action Down X" + event.getX() + "," + event.getY());
-            Log.i("Tag1", "Action Down rX " + event.getRawX() + "," + event.getRawY());
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            v.setX(event.getRawX() - left_oldXvalue - 50);
-            v.setY(event.getRawY() - (left_oldYvalue + v.getHeight() + 38));
-            //  Log.i("Tag2", "Action Down " + me.getRawX() + "," + me.getRawY());
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-
-            if (v.getX() > width && v.getY() > height) {
-                v.setX(width);
-                v.setY(height);
-            } else if (v.getX() < 0 && v.getY() > height) {
-                v.setX(0);
-                v.setY(height);
-            } else if (v.getX() > width && v.getY() < 0) {
-                v.setX(width);
-                v.setY(0);
-            } else if (v.getX() < 0 && v.getY() < 0) {
-                v.setX(0);
-                v.setY(0);
-            } else if (v.getX() < 0 || v.getX() > width) {
-                if (v.getX() < 0) {
-                    v.setX(0);
-                    v.setY(event.getRawY() - left_oldYvalue - v.getHeight());
-                } else {
-                    v.setX(width);
-                    v.setY(event.getRawY() - left_oldYvalue - v.getHeight());
-                }
-            } else if (v.getY() < 0 || v.getY() > height) {
-                if (v.getY() < 0) {
-                    v.setX(event.getRawX() - left_oldXvalue);
-                    v.setY(0);
-                } else {
-                    v.setX(event.getRawX() - left_oldXvalue);
-                    v.setY(height);
-                }
-            }
-        }
-        return true;
-    }
-    */
-    //
+      다른 창을 열었을 때의 이 스크린의 명령
+     */
 }
