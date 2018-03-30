@@ -1,13 +1,19 @@
 package school.high.andong.ftminesweeper;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -28,6 +34,7 @@ public class ControlActivity extends AppCompatActivity {
     int ry; //수직 꼬리 날개 서보의 조종 값
     int ao; //오토파일럿 On, Off 값
     int ad; //오토파일럿 각도 값
+    int ld; //이륙 모드 여부
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,34 +95,71 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        auto_s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b == true) {
+                    ao = 1;
+                    String green = "#00a000";
+                    auto_i.setTextColor(Color.parseColor(green));
+                    //auto_i.setTextColor(Integer.parseInt("colorTrue"));
+                } else {
+                    ao = 0;
+                    auto_i.setTextColor(-1979711488);
+                    auto_d.setProgress(70);
+                }
+            }
+        });
+
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ao = auto_d.getProgress();
-                if (ao < 10) {
-                    auto_i.setText("0" + ao + "°");
+                ad = auto_d.getProgress();
+                if ((ad-70) > 0 && (ad - 70) < 10) {
+                    auto_i.setText("0" + (ad - 70) + "°");
+                } else if ((ad-70) <0){
+                    if((70-ad) < 10) {
+                        auto_i.setText("-0" + (70 - ad) + "°");
+                    }
+                    else {
+                        auto_i.setText("-" + (70 - ad) + "°");
+                    }
                 } else {
-                    auto_i.setText("" + ao + "°");
+                    auto_i.setText("" + (ad - 70) + "°");
                 }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                ao = auto_d.getProgress();
-                if (ao < 10) {
-                    auto_i.setText("0" + ao + "°");
+                ad = auto_d.getProgress();
+                if ((ad-70) > 0 && (ad - 70) < 10) {
+                    auto_i.setText("0" + (ad - 70) + "°");
+                } else if ((ad-70) <0){
+                    if((70-ad) < 10) {
+                        auto_i.setText("-0" + (70 - ad) + "°");
+                    }
+                    else {
+                        auto_i.setText("-" + (70 - ad) + "°");
+                    }
                 } else {
-                    auto_i.setText("" + ao + "°");
+                    auto_i.setText("" + (ad - 70) + "°");
                 }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ao = auto_d.getProgress();
-                if (ao < 10) {
-                    auto_i.setText("0" + ao + "°");
+                ad = auto_d.getProgress();
+                if ((ad-70) > 0 && (ad - 70) < 10) {
+                    auto_i.setText("0" + (ad - 70) + "°");
+                } else if ((ad-70) <0){
+                    if((70-ad) < 10) {
+                        auto_i.setText("-0" + (70 - ad) + "°");
+                    }
+                    else {
+                        auto_i.setText("-" + (70 - ad) + "°");
+                    }
                 } else {
-                    auto_i.setText("" + ao + "°");
+                    auto_i.setText("" + (ad - 70) + "°");
                 }
             }
         });

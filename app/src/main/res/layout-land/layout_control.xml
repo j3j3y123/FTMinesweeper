@@ -11,31 +11,32 @@
     <LinearLayout
         android:id="@+id/layout_auto"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Switch
             android:id="@+id/auto_s"
-            android:layout_width="29dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:text="@string/switch_auto"
             android:textAlignment="center" />
 
         <SeekBar
             android:id="@+id/auto_d"
-            android:layout_width="369dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:max="70" />
+            android:layout_width="500dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:max="140"
+            android:progress="70" />
 
         <TextView
             android:id="@+id/auto_i"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
+            android:layout_weight="0"
+            android:text="0°"
             android:textAlignment="center" />
     </LinearLayout>
 
@@ -67,6 +68,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
+
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
 
             <TextView
                 android:id="@+id/textView"
