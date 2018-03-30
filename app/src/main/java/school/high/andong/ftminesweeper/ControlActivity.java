@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.support.design.widget.Snackbar;
 
 public class ControlActivity extends AppCompatActivity {
 
@@ -47,6 +49,7 @@ public class ControlActivity extends AppCompatActivity {
         final Button connect_btn = findViewById(R.id.btn_connect);
         final Button stop_btn = findViewById(R.id.btn_stop);
         final Button setting_btn = findViewById(R.id.btn_setting);
+        final Button exit_btn = findViewById(R.id.btn_exit);
 
         final SeekBar auto_d = findViewById(R.id.auto_d);
 
@@ -62,6 +65,9 @@ public class ControlActivity extends AppCompatActivity {
         final LinearLayout stick_layout = findViewById(R.id.layout_stick);
 
         final LinearLayout button_layout = findViewById(R.id.layout_button);
+
+
+
 
         auto_i.setText("00°");
 
@@ -110,6 +116,20 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
         });
+
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, R.string.snackbarmaintext, Snackbar.LENGTH_LONG).setAction(R.string.snackbarok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+
+                }).show();
+            }
+        });
+
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -305,5 +325,8 @@ public class ControlActivity extends AppCompatActivity {
     /*
       다른 창을 열었을 때의 이 스크린의 명령
      */
+
+    @Override public boolean onKeyDown(int keyCode, KeyEvent event) { switch (keyCode) { case KeyEvent.KEYCODE_BACK: return true; } return super.onKeyDown(keyCode, event); }
+
 }
 //

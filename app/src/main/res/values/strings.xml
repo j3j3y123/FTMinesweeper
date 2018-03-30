@@ -28,4 +28,6 @@
     <string name="information_text_1">Andong High School/Team.Minesweeper V.2</string>
     <string name="information_text_2">Beta ver.1</string>
     <string name="switch_land">Land</string>
+    <string name="snackbarmaintext">Exit?!</string>
+    <string name="snackbarok">OK</string>
 </resources>
