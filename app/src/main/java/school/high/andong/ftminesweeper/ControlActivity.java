@@ -1,25 +1,20 @@
 package school.high.andong.ftminesweeper;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.support.design.widget.Snackbar;
 
 public class ControlActivity extends AppCompatActivity {
 
@@ -325,8 +320,5 @@ public class ControlActivity extends AppCompatActivity {
     /*
       다른 창을 열었을 때의 이 스크린의 명령
      */
-
-    @Override public boolean onKeyDown(int keyCode, KeyEvent event) { switch (keyCode) { case KeyEvent.KEYCODE_BACK: return true; } return super.onKeyDown(keyCode, event); }
-
 }
 //
