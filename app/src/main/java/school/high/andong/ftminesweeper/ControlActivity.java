@@ -59,6 +59,8 @@ public class ControlActivity extends AppCompatActivity {
         final LinearLayout button_layout = findViewById(R.id.layout_button);
 
 
+
+
         auto_i.setText("00°");
 
         left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
