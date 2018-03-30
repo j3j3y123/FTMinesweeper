@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.support.design.widget.Snackbar;
 
 public class ControlActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class ControlActivity extends AppCompatActivity {
         final Button connect_btn = findViewById(R.id.btn_connect);
         final Button stop_btn = findViewById(R.id.btn_stop);
         final Button setting_btn = findViewById(R.id.btn_setting);
+        final Button exit_btn = findViewById(R.id.btn_exit);
 
         final SeekBar auto_d = findViewById(R.id.auto_d);
 
@@ -55,6 +57,7 @@ public class ControlActivity extends AppCompatActivity {
         final LinearLayout stick_layout = findViewById(R.id.layout_stick);
 
         final LinearLayout button_layout = findViewById(R.id.layout_button);
+
 
         auto_i.setText("00°");
 
@@ -85,6 +88,13 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class), true);
+            }
+        });
+
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "앱을 종료하시겠습니까?", Snackbar.LENGTH_LONG).show();
             }
         });
 
