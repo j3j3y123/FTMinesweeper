@@ -61,9 +61,6 @@ public class ControlActivity extends AppCompatActivity {
 
         final LinearLayout button_layout = findViewById(R.id.layout_button);
 
-
-
-
         auto_i.setText("00°");
 
         left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
@@ -79,20 +76,12 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        //설정 버튼 눌렀을때 설정으로 이동
+
         stop_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),MainActivity.class), true);
-            }
-        });
-        /*
-          설정 버튼 눌렀을때 설정으로 이동
-         */
-
-        stop_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class), true);
             }
         });
 
@@ -101,8 +90,7 @@ public class ControlActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b == true) {
                     ao = 1;
-                    String green = "#00a000";
-                    auto_i.setTextColor(Color.parseColor(green));
+                    auto_i.setTextColor(Color.parseColor("#00a000"));
                     //auto_i.setTextColor(Integer.parseInt("colorTrue"));
                 } else {
                     ao = 0;
@@ -112,6 +100,8 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        //자동 주행 온/오프 설정
+
         exit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,11 +110,11 @@ public class ControlActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         finish();
                     }
-
                 }).show();
             }
         });
 
+        //나가기 버튼 설정
 
         auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -178,6 +168,7 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
         });
+
         /*
           상단 자동 시크바를 움직일 때 옆에 있는 텍스트 값 변경
          */
