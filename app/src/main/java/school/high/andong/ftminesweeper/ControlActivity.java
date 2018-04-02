@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class ControlActivity extends AppCompatActivity {
 
@@ -32,6 +35,17 @@ public class ControlActivity extends AppCompatActivity {
     int ao; //오토파일럿 On, Off 값
     int ad; //오토파일럿 각도 값
     int ld; //이륙 모드 여부
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KEYCODE_BACK:
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    //뒤로가기 키 막기
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
