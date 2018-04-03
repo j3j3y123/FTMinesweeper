@@ -75,6 +75,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
             <Button
                 android:id="@+id/btn_connect"
                 android:layout_width="100dp"
