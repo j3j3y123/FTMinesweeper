@@ -24,10 +24,10 @@ public class ControlActivity extends AppCompatActivity {
 
     //String send_blue; //블루투스에 전송될 문자열
 
-    float left_oldXvalue;
-    float left_oldYvalue;
-    float right_oldXvalue;
-    float right_oldYvalue;
+    float left_oldX_value;
+    float left_oldY_value;
+    float right_oldX_value;
+    float right_oldY_value;
 
     //int rx; //모터의 조종 값
     //int ly; //주 날개 서보의 조종 값
@@ -197,8 +197,8 @@ public class ControlActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN :
-                        left_oldXvalue = event.getRawX();
-                        left_oldYvalue = event.getRawY();
+                        left_oldX_value = event.getRawX();
+                        left_oldY_value = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
                         if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
@@ -263,8 +263,8 @@ public class ControlActivity extends AppCompatActivity {
             public boolean onTouch(View right_view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN :
-                        right_oldXvalue = event.getRawX();
-                        right_oldYvalue = event.getRawY();
+                        right_oldX_value = event.getRawX();
+                        right_oldY_value = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
                         if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
