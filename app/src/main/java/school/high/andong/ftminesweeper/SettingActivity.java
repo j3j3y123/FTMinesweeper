@@ -16,9 +16,9 @@ public class SettingActivity extends AppCompatActivity{
         final Button btn_apply = findViewById(R.id.btn_apply);
         final Button btn_default = findViewById(R.id.btn_default);
 
-        final EditText mainwing = findViewById(R.id.mainwing);
-        final EditText verticalwing = findViewById(R.id.verticalwing);
-        final EditText horizontalwing = findViewById(R.id.horizontalwing);
+        final EditText main_wing = findViewById(R.id.mainwing);
+        final EditText vertical_wing = findViewById(R.id.verticalwing);
+        final EditText horizontal_wing = findViewById(R.id.horizontalwing);
 
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,9 +30,9 @@ public class SettingActivity extends AppCompatActivity{
         btn_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainwing.setText("0");
-                verticalwing.setText("0");
-                horizontalwing.setText("0");
+                main_wing.setText("0");
+                vertical_wing.setText("0");
+                horizontal_wing.setText("0");
             }
         });
     }
