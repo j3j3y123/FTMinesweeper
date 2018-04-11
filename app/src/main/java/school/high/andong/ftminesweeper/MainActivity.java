@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private class ConnectedTask extends AsyncTask<Void, String, Boolean> {
+    class ConnectedTask extends AsyncTask<Void, String, Boolean> {
 
         private InputStream mInputStream = null;
         private OutputStream mOutputStream = null;
