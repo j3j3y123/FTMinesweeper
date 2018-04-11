@@ -1,7 +1,6 @@
 package school.high.andong.ftminesweeper;
 
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -26,10 +24,10 @@ public class ControlActivity extends AppCompatActivity {
 
     //String send_blue; //블루투스에 전송될 문자열
 
-    float left_oldX_value;
-    float left_oldY_value;
-    float right_oldX_value;
-    float right_oldY_value;
+    float left_oldXvalue;
+    float left_oldYvalue;
+    float right_oldXvalue;
+    float right_oldYvalue;
 
     //int rx; //모터의 조종 값
     //int ly; //주 날개 서보의 조종 값
@@ -38,35 +36,11 @@ public class ControlActivity extends AppCompatActivity {
     int ao; //오토파일럿 On, Off 값
     int ad; //오토파일럿 각도 값
     //int ld; //이륙 모드 여부
+
     int finish;
 
-    final ImageView left_btn = findViewById(R.id.left_btn);
-    final ImageView right_btn  = findViewById(R.id.right_btn);
-
-    //final Button connect_btn = findViewById(R.id.btn_connect);
-    final Button stop_btn = findViewById(R.id.btn_stop);
-    final Button setting_btn = findViewById(R.id.btn_setting);
-    final Button exit_btn = findViewById(R.id.btn_exit);
-
-    final SeekBar auto_d = findViewById(R.id.auto_d);
-
-    final Switch auto_s = findViewById(R.id.auto_s);
-
-    final TextView auto_i = findViewById(R.id.auto_i);
-
-    final RelativeLayout left_layout = findViewById(R.id.layout_left);
-    final RelativeLayout right_layout = findViewById(R.id.layout_right);
-
-    final LinearLayout device = findViewById(R.id.layout_all);
-    final LinearLayout auto_layout = findViewById(R.id.layout_auto);
-    final LinearLayout stick_layout = findViewById(R.id.layout_stick);
-
-    final LinearLayout button_layout = findViewById(R.id.layout_button);
-
-    private BluetoothAdapter mBluetoothAdapter = null;
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KEYCODE_BACK:
                 return true;
@@ -76,22 +50,34 @@ public class ControlActivity extends AppCompatActivity {
 
     //뒤로가기 키 막기
 
-    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
+    @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //블루투스 어뎁터 불러오기
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        //만약 블루투스 어뎁터가 "null"이라면 블루투스 미지원이므로 종료
-        if(mBluetoothAdapter == null) {
-            Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-
         setContentView(R.layout.layout_control);
+
+        final ImageView left_btn = findViewById(R.id.left_btn);
+        final ImageView right_btn  = findViewById(R.id.right_btn);
+
+        final Button connect_btn = findViewById(R.id.btn_connect);
+        //final Button stop_btn = findViewById(R.id.btn_stop);
+        final Button setting_btn = findViewById(R.id.btn_setting);
+        final Button exit_btn = findViewById(R.id.btn_exit);
+
+        final SeekBar auto_d = findViewById(R.id.auto_d);
+
+        final Switch auto_s = findViewById(R.id.auto_s);
+
+        final TextView auto_i = findViewById(R.id.auto_i);
+
+        final RelativeLayout left_layout = findViewById(R.id.layout_left);
+        final RelativeLayout right_layout = findViewById(R.id.layout_right);
+
+        final LinearLayout device = findViewById(R.id.layout_all);
+        final LinearLayout auto_layout = findViewById(R.id.layout_auto);
+        final LinearLayout stick_layout = findViewById(R.id.layout_stick);
+
+        final LinearLayout button_layout = findViewById(R.id.layout_button);
 
         auto_i.setText("00°");
 
@@ -110,7 +96,7 @@ public class ControlActivity extends AppCompatActivity {
 
         //설정 버튼 눌렀을때 설정으로 이동
 
-        stop_btn.setOnClickListener(new View.OnClickListener() {
+        connect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),MainActivity.class), true);
@@ -167,7 +153,6 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
 
-            @SuppressLint("SetTextI18n")
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 ad = auto_d.getProgress();
@@ -185,7 +170,6 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
 
-            @SuppressLint("SetTextI18n")
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 ad = auto_d.getProgress();
@@ -213,8 +197,8 @@ public class ControlActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN :
-                        left_oldX_value = event.getRawX();
-                        left_oldY_value = event.getRawY();
+                        left_oldXvalue = event.getRawX();
+                        left_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
                         if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
@@ -279,8 +263,8 @@ public class ControlActivity extends AppCompatActivity {
             public boolean onTouch(View right_view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN :
-                        right_oldX_value = event.getRawX();
-                        right_oldY_value = event.getRawY();
+                        right_oldXvalue = event.getRawX();
+                        right_oldYvalue = event.getRawY();
                     case MotionEvent.ACTION_MOVE :
                         if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
@@ -338,16 +322,6 @@ public class ControlActivity extends AppCompatActivity {
         /*
           우측 조이스틱 움직임
          */
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(!mBluetoothAdapter.isEnabled()){
-            int REQUEST_ENABLE_BT=2;
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
     }
 
     public void startActivity(Intent intent, boolean deleteThis) {
