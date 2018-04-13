@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button sendButton = (Button)findViewById(R.id.send_button);
+        Button sendButton = findViewById(R.id.send_button);
         sendButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 String sendMessage = mInputEditText.getText().toString();
@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        mConnectionStatus = (TextView)findViewById(R.id.connection_status_textview);
-        mInputEditText = (EditText)findViewById(R.id.input_string_edittext);
-        ListView mMessageListview = (ListView) findViewById(R.id.message_listview);
+        mConnectionStatus = findViewById(R.id.connection_status_textview);
+        mInputEditText = findViewById(R.id.input_string_edittext);
+        ListView mMessageListview = findViewById(R.id.message_listview);
 
         mConversationArrayAdapter = new ArrayAdapter<>( this,
                 android.R.layout.simple_list_item_1 );

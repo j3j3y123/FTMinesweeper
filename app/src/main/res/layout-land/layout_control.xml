@@ -43,7 +43,7 @@
     <LinearLayout
         android:id="@+id/layout_stick"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -65,7 +65,7 @@
         <LinearLayout
             android:id="@+id/layout_button"
             android:layout_width="150dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -73,10 +73,12 @@
                 android:id="@+id/toggleButton"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0" />
+                android:layout_weight="0"
+                android:textOff="@string/switch_fly"
+                android:textOn="@string/switch_land" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/asdf"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -143,6 +145,46 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/center" />
         </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <SeekBar
+            android:id="@+id/LX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="6"
+            android:progress="3" />
+
+        <SeekBar
+            android:id="@+id/LY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="6"
+            android:progress="3" />
+
+        <SeekBar
+            android:id="@+id/RX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="6"
+            android:progress="3" />
+
+        <SeekBar
+            android:id="@+id/RY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="10"
+            android:progress="0" />
     </LinearLayout>
 
 </LinearLayout>

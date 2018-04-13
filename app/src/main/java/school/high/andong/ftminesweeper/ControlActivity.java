@@ -18,6 +18,8 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class ControlActivity extends AppCompatActivity {
@@ -29,10 +31,10 @@ public class ControlActivity extends AppCompatActivity {
     float right_oldX_value;
     float right_oldY_value;
 
-    //int rx; //모터의 조종 값
-    //int ly; //주 날개 서보의 조종 값
-    //int lx; //수평 꼬리 날개 서보의 조종 값
-    //int ry; //수직 꼬리 날개 서보의 조종 값
+    //int ry; //모터의 조종 값
+    int ly; //수평 꼬리 날개 서보의 조종 값
+    int lx; //주 날개 서보의 조종 값
+    //int rx; //수직 꼬리 날개 서보의 조종 값
     int ao; //오토파일럿 On, Off 값
     int ad; //오토파일럿 각도 값
     //int ld; //이륙 모드 여부
@@ -60,15 +62,20 @@ public class ControlActivity extends AppCompatActivity {
         final ImageView right_btn  = findViewById(R.id.right_btn);
 
         final Button connect_btn = findViewById(R.id.btn_connect);
-        //final Button stop_btn = findViewById(R.id.btn_stop);
+        final Button stop_btn = findViewById(R.id.btn_stop);
         final Button setting_btn = findViewById(R.id.btn_setting);
         final Button exit_btn = findViewById(R.id.btn_exit);
 
         final SeekBar auto_d = findViewById(R.id.auto_d);
+        final SeekBar seek_lx = findViewById(R.id.LX);
+        final SeekBar seek_ly = findViewById(R.id.LY);
+        final SeekBar seek_rx = findViewById(R.id.RX);
+        final SeekBar seek_ry = findViewById(R.id.RY);
 
         final Switch auto_s = findViewById(R.id.auto_s);
 
         final TextView auto_i = findViewById(R.id.auto_i);
+        //final TextView asdf = findViewById(R.id.asdf);
 
         final RelativeLayout left_layout = findViewById(R.id.layout_left);
         final RelativeLayout right_layout = findViewById(R.id.layout_right);
@@ -91,6 +98,13 @@ public class ControlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class), true);
 
+            }
+        });
+
+        stop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
             }
         });
 
@@ -203,53 +217,93 @@ public class ControlActivity extends AppCompatActivity {
                         if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
                             left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
                             left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                            seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                            lx = seek_lx.getProgress();
+                            ly = seek_ly.getProgress();
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
                             left_btn.setX(0);
+                            seek_lx.setProgress(0);
                             left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                            seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                            lx = seek_lx.getProgress();
+                            ly = seek_ly.getProgress();
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
                             left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
                             left_btn.setY(0);
+                            seek_ly.setProgress(6);
+                            lx = seek_lx.getProgress();
+                            ly = seek_ly.getProgress();
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
                             left_btn.setX(0);
+                            seek_lx.setProgress(0);
                             left_btn.setY(0);
+                            seek_ly.setProgress(6);
+                            lx = seek_lx.getProgress();
+                            ly = seek_ly.getProgress();
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 ||
                                 event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth()){
                             if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0){
                                 left_btn.setX(0);
+                                seek_lx.setProgress(0);
                                 left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                                seek_ly.setProgress(Math.abs(6-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                lx = seek_lx.getProgress();
+                                ly = seek_ly.getProgress();
                                 return true;
                             } else {
                                 left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
+                                seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
                                 left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                                seek_ly.setProgress(Math.abs(6-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                lx = seek_lx.getProgress();
+                                ly = seek_ly.getProgress();
                                 return true;
                             }
                         } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0 ||
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
                             if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
                                 left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)*6));
                                 left_btn.setY(0);
+                                seek_ly.setProgress(6);
+                                lx = seek_lx.getProgress();
+                                ly = seek_ly.getProgress();
                                 return true;
                             } else {
                                 left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)/(left_layout.getWidth()-left_btn.getWidth())*6));
                                 left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
+                                seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                lx = seek_lx.getProgress();
+                                ly = seek_ly.getProgress();
                                 return true;
                             }
                         } else {
                             left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
+                            seek_lx.setProgress(Math.round((((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2))/(left_layout.getWidth()-left_btn.getWidth()))*6));
                             left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
+                            seek_ly.setProgress(Math.abs(6-Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight()))*6)));
+                            lx = seek_lx.getProgress();
+                            ly = seek_ly.getProgress();
                             return true;
                         }
                     case MotionEvent.ACTION_UP :
                         left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
                         left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
+                        seek_lx.setProgress(3);
+                        seek_ly.setProgress(3);
+                        lx = seek_lx.getProgress();
+                        ly = seek_ly.getProgress();
                 }
                 return true;
             }
@@ -334,4 +388,3 @@ public class ControlActivity extends AppCompatActivity {
       다른 창을 열었을 때의 이 스크린의 명령
      */
 }
-//

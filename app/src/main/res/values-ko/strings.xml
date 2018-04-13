@@ -28,5 +28,6 @@
     <string name="information_text_2">Beta ver.1</string>
     <string name="snackbarmaintext">앱을 종료하시겠습니까?</string>
     <string name="snackbarok">확인</string>
-    <string name="switch_land">이륙</string>
+    <string name="switch_land">이/착륙</string>
+    <string name="switch_fly">비행</string>
 </resources>
