@@ -13,12 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/NoActionbarAppTheme">
-
-        </activity>
-        <activity
             android:name=".IntroActivity"
             android:theme="@style/NoActionbarAppTheme">
             <intent-filter>
