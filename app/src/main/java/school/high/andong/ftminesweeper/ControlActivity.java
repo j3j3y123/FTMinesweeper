@@ -2,6 +2,7 @@
  * 비행기 조종에 관련하여 모든 작업이 이루어질 액티비티
  * */
 package school.high.andong.ftminesweeper;
+//
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
