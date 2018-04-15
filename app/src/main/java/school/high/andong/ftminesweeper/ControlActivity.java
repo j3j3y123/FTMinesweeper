@@ -39,7 +39,6 @@ public class ControlActivity extends AppCompatActivity {
 
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
 
-    private Button connect_btn = findViewById(R.id.btn_connect);
 
     ConnectedTask mConnectedTask = null;
     static BluetoothAdapter mBluetoothAdapter;
@@ -93,6 +92,7 @@ public class ControlActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.layout_control);
+        Button connect_btn = findViewById(R.id.btn_connect);
 
         final ImageView left_btn = findViewById(R.id.left_btn);
         final ImageView right_btn = findViewById(R.id.right_btn);
@@ -149,6 +149,8 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
+                seek_ry.setProgress(0);
+                ry=seek_ry.getProgress();
                 send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
@@ -156,13 +158,6 @@ public class ControlActivity extends AppCompatActivity {
         });
 
         //출력정지 버튼을 눌럿을때 RX 0으로
-
-        connect_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(),MainActivity.class), true);
-            }
-        });
 
         auto_s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -263,7 +258,7 @@ public class ControlActivity extends AppCompatActivity {
 
         /*
           상단 자동 시크바를 움직일 때 옆에 있는 텍스트 값 변경
-         */
+        */
 
         left_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -350,7 +345,7 @@ public class ControlActivity extends AppCompatActivity {
                                 event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
                             if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
                                 left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) * 6));
+                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
                                 left_btn.setY(0);
                                 seek_ly.setProgress(6);
                                 lx = seek_lx.getProgress();
@@ -606,7 +601,7 @@ public class ControlActivity extends AppCompatActivity {
             } catch (IOException e) {
 
             }
-            connect_btn.setTextColor(Color.parseColor("#00a000"));
+            //connect_btn.setTextColor(Color.parseColor("#00a000"));
         }
 
         @Override
@@ -707,7 +702,7 @@ public class ControlActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select device");
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
