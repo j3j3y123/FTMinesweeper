@@ -1,6 +1,6 @@
 /*
-* 비행기 조종에 관련하여 모든 작업이 이루어질 액티비티
-* */
+ * 비행기 조종에 관련하여 모든 작업이 이루어질 액티비티
+ * */
 package school.high.andong.ftminesweeper;
 
 import android.annotation.SuppressLint;
@@ -54,16 +54,16 @@ public class ControlActivity extends AppCompatActivity {
     float right_oldX_value;
     float right_oldY_value;
 
-    int ry=0; //모터의 조종 값
-    int ly=3; //수평 꼬리 날개 서보의 조종 값
-    int lx=3; //주 날개 서보의 조종 값
-    int rx=3; //수직 꼬리 날개 서보의 조종 값
-    int ao=0; //오토파일럿 On, Off 값
-    int ad=70; //오토파일럿 각도 값
-    int ld=0; //이륙 모드 여부
+    int ry = 0; //모터의 조종 값
+    int ly = 3; //수평 꼬리 날개 서보의 조종 값
+    int lx = 3; //주 날개 서보의 조종 값
+    int rx = 3; //수직 꼬리 날개 서보의 조종 값
+    int ao = 0; //오토파일럿 On, Off 값
+    int ad = 70; //오토파일럿 각도 값
+    int ld = 0; //이륙 모드 여부
     int finish;
 
-    String reciveMessage;
+    String receiveMessage;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -95,7 +95,7 @@ public class ControlActivity extends AppCompatActivity {
         setContentView(R.layout.layout_control);
 
         final ImageView left_btn = findViewById(R.id.left_btn);
-        final ImageView right_btn  = findViewById(R.id.right_btn);
+        final ImageView right_btn = findViewById(R.id.right_btn);
 
         final Button stop_btn = findViewById(R.id.btn_stop);
         final Button setting_btn = findViewById(R.id.btn_setting);
@@ -149,7 +149,7 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
             }
@@ -171,14 +171,14 @@ public class ControlActivity extends AppCompatActivity {
                     ao = 1;
                     auto_i.setTextColor(Color.parseColor("#00a000"));
                     //auto_i.setTextColor(Integer.parseInt("colorTrue"));
-                    send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                    send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                     asdf.setText(send_blue);
                     sendMessage(send_blue);
                 } else {
                     ao = 0;
                     auto_i.setTextColor(-1979711488);
                     auto_d.setProgress(70);
-                    send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                    send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                     asdf.setText(send_blue);
                     sendMessage(send_blue);
                 }
@@ -206,19 +206,18 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 ad = auto_d.getProgress();
-                if ((ad-70) > 0 && (ad - 70) < 10) {
+                if ((ad - 70) > 0 && (ad - 70) < 10) {
                     auto_i.setText("0" + (ad - 70) + "°");
-                } else if ((ad-70) <0){
-                    if((70-ad) < 10) {
+                } else if ((ad - 70) < 0) {
+                    if ((70 - ad) < 10) {
                         auto_i.setText("-0" + (70 - ad) + "°");
-                    }
-                    else {
+                    } else {
                         auto_i.setText("-" + (70 - ad) + "°");
                     }
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
             }
@@ -226,19 +225,18 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 ad = auto_d.getProgress();
-                if ((ad-70) > 0 && (ad - 70) < 10) {
+                if ((ad - 70) > 0 && (ad - 70) < 10) {
                     auto_i.setText("0" + (ad - 70) + "°");
-                } else if ((ad-70) <0){
-                    if((70-ad) < 10) {
+                } else if ((ad - 70) < 0) {
+                    if ((70 - ad) < 10) {
                         auto_i.setText("-0" + (70 - ad) + "°");
-                    }
-                    else {
+                    } else {
                         auto_i.setText("-" + (70 - ad) + "°");
                     }
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
             }
@@ -246,19 +244,18 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 ad = auto_d.getProgress();
-                if ((ad-70) > 0 && (ad - 70) < 10) {
+                if ((ad - 70) > 0 && (ad - 70) < 10) {
                     auto_i.setText("0" + (ad - 70) + "°");
-                } else if ((ad-70) <0){
-                    if((70-ad) < 10) {
+                } else if ((ad - 70) < 0) {
+                    if ((70 - ad) < 10) {
                         auto_i.setText("-0" + (70 - ad) + "°");
-                    }
-                    else {
+                    } else {
                         auto_i.setText("-" + (70 - ad) + "°");
                     }
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
             }
@@ -272,128 +269,128 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN :
+                    case MotionEvent.ACTION_DOWN:
                         left_oldX_value = event.getRawX();
                         left_oldY_value = event.getRawY();
-                    case MotionEvent.ACTION_MOVE :
+                    case MotionEvent.ACTION_MOVE:
                         if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
                             left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
+                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
                             left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                            seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
                             left_btn.setX(0);
                             seek_lx.setProgress(0);
                             left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                            seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
                             left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
+                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
                             left_btn.setY(0);
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
                             left_btn.setX(0);
                             seek_lx.setProgress(0);
                             left_btn.setY(0);
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 ||
-                                event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth()){
-                            if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0){
+                                event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth()) {
+                            if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0) {
                                 left_btn.setX(0);
                                 seek_lx.setProgress(0);
                                 left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             } else {
                                 left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                                seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth())/(left_layout.getWidth()-left_btn.getWidth())*6));
+                                seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
                                 left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             }
                         } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0 ||
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()){
-                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
+                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
                                 left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)*6));
+                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) * 6));
                                 left_btn.setY(0);
                                 seek_ly.setProgress(6);
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             } else {
                                 left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)/(left_layout.getWidth()-left_btn.getWidth())*6));
+                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
                                 left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6-Math.round((left_layout.getHeight() - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight())*6)));
+                                seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             }
                         } else {
                             left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                            seek_lx.setProgress(Math.round((((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2))/(left_layout.getWidth()-left_btn.getWidth()))*6));
+                            seek_lx.setProgress(Math.round((((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)) / (left_layout.getWidth() - left_btn.getWidth())) * 6));
                             left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6-Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight())/(left_layout.getHeight()-left_btn.getHeight()))*6)));
+                            seek_ly.setProgress(Math.abs(6 - Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight())) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         }
-                    case MotionEvent.ACTION_UP :
+                    case MotionEvent.ACTION_UP:
                         left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
                         left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
                         seek_lx.setProgress(3);
                         seek_ly.setProgress(3);
                         lx = seek_lx.getProgress();
                         ly = seek_ly.getProgress();
-                        send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                        send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                         asdf.setText(send_blue);
                         sendMessage(send_blue);
                 }
@@ -408,125 +405,125 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View right_view, MotionEvent event) {
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN :
+                    case MotionEvent.ACTION_DOWN:
                         right_oldX_value = event.getRawX();
                         right_oldY_value = event.getRawY();
-                    case MotionEvent.ACTION_MOVE :
+                    case MotionEvent.ACTION_MOVE:
                         if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
                             right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth())/(right_layout.getWidth()-right_btn.getWidth())*6));
+                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                             right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10-Math.round((right_layout.getHeight() - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                            rx=seek_rx.getProgress();
-                            ry=seek_ry.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                            rx = seek_rx.getProgress();
+                            ry = seek_ry.getProgress();
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
                             right_btn.setX(0);
                             seek_rx.setProgress(0);
                             right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10-Math.round((right_layout.getHeight() - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                            rx=seek_rx.getProgress();
-                            ry=seek_ry.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                            rx = seek_rx.getProgress();
+                            ry = seek_ry.getProgress();
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
                             right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth())/(right_layout.getWidth()-right_btn.getWidth())*6));
+                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                             right_btn.setY(0);
                             seek_ry.setProgress(10);
-                            rx=seek_rx.getProgress();
-                            ry=seek_ry.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            rx = seek_rx.getProgress();
+                            ry = seek_ry.getProgress();
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
                             right_btn.setX(0);
                             seek_rx.setProgress(0);
                             right_btn.setY(0);
                             seek_ry.setProgress(10);
-                            rx=seek_rx.getProgress();
-                            ry=seek_ry.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            rx = seek_rx.getProgress();
+                            ry = seek_ry.getProgress();
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 ||
-                                event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth()){
-                            if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0){
+                                event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth()) {
+                            if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0) {
                                 right_btn.setX(0);
                                 seek_rx.setProgress(0);
                                 right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                                rx=seek_rx.getProgress();
-                                ry=seek_ry.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                                rx = seek_rx.getProgress();
+                                ry = seek_ry.getProgress();
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             } else {
                                 right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                                seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth())/(right_layout.getWidth()-right_btn.getWidth())*6));
+                                seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                                 right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                                rx=seek_rx.getProgress();
-                                ry=seek_ry.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                                rx = seek_rx.getProgress();
+                                ry = seek_ry.getProgress();
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             }
                         } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0 ||
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()){
-                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0){
+                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
+                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
                                 right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2)/(right_layout.getWidth()-right_btn.getWidth())*6));
+                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                                 right_btn.setY(0);
                                 seek_ry.setProgress(10);
-                                rx=seek_rx.getProgress();
-                                ry=seek_ry.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                rx = seek_rx.getProgress();
+                                ry = seek_ry.getProgress();
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             } else {
                                 right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2)/(right_layout.getWidth()-right_btn.getWidth())*6));
+                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                                 right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10-Math.round((right_layout.getHeight() - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                                rx=seek_rx.getProgress();
-                                ry=seek_ry.getProgress();
-                                send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                                rx = seek_rx.getProgress();
+                                ry = seek_ry.getProgress();
+                                send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(send_blue);
                                 return true;
                             }
                         } else {
                             right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                            seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2)/(right_layout.getWidth()-right_btn.getWidth())*6));
+                            seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
                             right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10-Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight())/(right_layout.getHeight()-right_btn.getHeight())*10)));
-                            rx=seek_rx.getProgress();
-                            ry=seek_ry.getProgress();
-                            send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
+                            rx = seek_rx.getProgress();
+                            ry = seek_ry.getProgress();
+                            send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(send_blue);
                             return true;
                         }
-                    case MotionEvent.ACTION_UP :
+                    case MotionEvent.ACTION_UP:
                         right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
                         seek_rx.setProgress(3);
-                        rx=seek_rx.getProgress();
-                        send_blue="<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                        rx = seek_rx.getProgress();
+                        send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                         asdf.setText(send_blue);
                         sendMessage(send_blue);
                 }
@@ -575,7 +572,7 @@ public class ControlActivity extends AppCompatActivity {
                 } catch (IOException e2) {
 
                 }
-                return  false;
+                return false;
             }
             return true;
         }
@@ -615,7 +612,7 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            byte [] readBuffer = new byte[1024];
+            byte[] readBuffer = new byte[1024];
             int readBufferPosition = 0;
 
             while (true) {
@@ -624,12 +621,12 @@ public class ControlActivity extends AppCompatActivity {
                 try {
                     int bytesAvailable = mInputStream.available();
 
-                    if(bytesAvailable > 0) {
+                    if (bytesAvailable > 0) {
                         byte[] packetBytes = new byte[bytesAvailable];
 
                         mInputStream.read(packetBytes);
 
-                        for (int i=0;i < bytesAvailable;i++) {
+                        for (int i = 0; i < bytesAvailable; i++) {
 
                             byte b = packetBytes[i];
                             if (b == '\n') {
@@ -653,7 +650,7 @@ public class ControlActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... recvMessage) {
-            reciveMessage=recvMessage[0];
+            receiveMessage = recvMessage[0];
         }
 
         @Override
@@ -687,7 +684,7 @@ public class ControlActivity extends AppCompatActivity {
             try {
                 mOutputStream.write(msg.getBytes());
                 mOutputStream.flush();
-            } catch (IOException e){
+            } catch (IOException e) {
 
             }
         }
@@ -704,7 +701,7 @@ public class ControlActivity extends AppCompatActivity {
 
         String[] items;
         items = new String[pairedDevices.length];
-        for (int i=0; i < pairedDevices.length; i++) {
+        for (int i = 0; i < pairedDevices.length; i++) {
             items[i] = pairedDevices[i].getName();
         }
 
@@ -728,11 +725,11 @@ public class ControlActivity extends AppCompatActivity {
         builder.setTitle("Quit");
         builder.setCancelable(false);
         builder.setMessage(message);
-        builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if ( isConnectionError  ) {
+                if (isConnectionError) {
                     isConnectionError = false;
                     finish();
                 }
@@ -741,13 +738,12 @@ public class ControlActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    public void showQuitDialog(String message)
-    {
+    public void showQuitDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Quit");
         builder.setCancelable(false);
         builder.setMessage(message);
-        builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -765,11 +761,11 @@ public class ControlActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_BLUETOOTH_ENABLE){
-            if (resultCode == RESULT_OK){
+        if (requestCode == REQUEST_BLUETOOTH_ENABLE) {
+            if (resultCode == RESULT_OK) {
                 showPairedDevicesListDialog();
             }
-            if (resultCode == RESULT_CANCELED){
+            if (resultCode == RESULT_CANCELED) {
                 showQuitDialog("You need to enable bluetooth");
             }
         }
@@ -777,8 +773,8 @@ public class ControlActivity extends AppCompatActivity {
 
     public void startActivity(Intent intent, boolean deleteThis) {
         super.startActivity(intent);
-        if(deleteThis){
-            finish=0;
+        if (deleteThis) {
+            finish = 0;
         }
     }
     /*
