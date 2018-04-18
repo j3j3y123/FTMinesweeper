@@ -1,8 +1,9 @@
+
 /*
  * 비행기 조종에 관련하여 모든 작업이 이루어질 액티비티
- * */
+ */
+
 package school.high.andong.ftminesweeper;
-//
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -40,6 +41,7 @@ public class ControlActivity extends AppCompatActivity {
 
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
 
+    private Button connect_btn;
 
     ConnectedTask mConnectedTask = null;
     static BluetoothAdapter mBluetoothAdapter;
@@ -48,6 +50,7 @@ public class ControlActivity extends AppCompatActivity {
     private static final String TAG = "BluetoothClient";
 
     String send_blue; //블루투스에 전송될 문자열
+    String receiveMessage;
 
     float left_oldX_value;
     float left_oldY_value;
@@ -63,7 +66,6 @@ public class ControlActivity extends AppCompatActivity {
     int ld = 0; //이륙 모드 여부
     int finish;
 
-    String receiveMessage;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -81,6 +83,8 @@ public class ControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.layout_control);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             showErrorDialog("This device is not implement Bluetooth.");
@@ -90,11 +94,12 @@ public class ControlActivity extends AppCompatActivity {
         if (!mBluetoothAdapter.isEnabled()) {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(intent, REQUEST_BLUETOOTH_ENABLE);
+        } else {
+            showPairedDevicesListDialog();
         }
 
-        setContentView(R.layout.layout_control);
-        Button connect_btn = findViewById(R.id.btn_connect);
 
+        connect_btn = findViewById(R.id.btn_connect);
         final ImageView left_btn = findViewById(R.id.left_btn);
         final ImageView right_btn = findViewById(R.id.right_btn);
 
@@ -133,8 +138,11 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showPairedDevicesListDialog();
+                sendMessage(send_blue);
             }
         });
+
+        //연결 버튼 눌렀을 때의 명령
 
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +159,7 @@ public class ControlActivity extends AppCompatActivity {
             public void onClick(View view) {
                 right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
                 seek_ry.setProgress(0);
-                ry=seek_ry.getProgress();
+                ry = seek_ry.getProgress();
                 send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(send_blue);
@@ -166,7 +174,6 @@ public class ControlActivity extends AppCompatActivity {
                 if (b) {
                     ao = 1;
                     auto_i.setTextColor(Color.parseColor("#00a000"));
-                    //auto_i.setTextColor(Integer.parseInt("colorTrue"));
                     send_blue = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
                     asdf.setText(send_blue);
                     sendMessage(send_blue);
@@ -602,7 +609,8 @@ public class ControlActivity extends AppCompatActivity {
             } catch (IOException e) {
 
             }
-            //connect_btn.setTextColor(Color.parseColor("#00a000"));
+            connect_btn.setTextColor(Color.parseColor("#00a000"));
+            sendMessage(send_blue);
         }
 
         @Override
@@ -708,7 +716,6 @@ public class ControlActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
                 ConnectTask task = new ConnectTask(pairedDevices[which]);
                 task.execute();
             }
