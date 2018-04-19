@@ -65,8 +65,11 @@ public class ControlActivity extends AppCompatActivity {
     int ao = 0; //오토파일럿 On, Off 값
     int ad = 70; //오토파일럿 각도 값
     int ld = 0; //이륙 모드 여부
+    int s_ry; //실제로 보내질 모터의 조종 값
+    int s_ly; //실제로 보내질 수평 꼬리 날개 서보의 조종 값
+    int s_lx; //실제로 보내질 주 날개 서보의 조종 값
+    int s_rx; //실제로 보내질 수직 꼬리 날개 서보의 조종 값
     int finish;
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -161,7 +164,8 @@ public class ControlActivity extends AppCompatActivity {
                 right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
                 seek_ry.setProgress(0);
                 ry = seek_ry.getProgress();
-                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                s_ry = ry * 18;
+                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(before_send);
             }
@@ -175,14 +179,14 @@ public class ControlActivity extends AppCompatActivity {
                 if (b) {
                     ao = 1;
                     auto_i.setTextColor(Color.parseColor("#00a000"));
-                    before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                    before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                     asdf.setText(send_blue);
                     sendMessage(before_send);
                 } else {
                     ao = 0;
                     auto_i.setTextColor(-1979711488);
                     auto_d.setProgress(70);
-                    before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                    before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                     asdf.setText(send_blue);
                     sendMessage(before_send);
                 }
@@ -221,7 +225,7 @@ public class ControlActivity extends AppCompatActivity {
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(before_send);
             }
@@ -240,7 +244,7 @@ public class ControlActivity extends AppCompatActivity {
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(before_send);
             }
@@ -259,7 +263,7 @@ public class ControlActivity extends AppCompatActivity {
                 } else {
                     auto_i.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                 asdf.setText(send_blue);
                 sendMessage(before_send);
             }
@@ -285,7 +289,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_lx = rx * 12;
+                            s_ly = ly * 12;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -297,7 +303,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_lx = rx * 12;
+                            s_ly = ly * 12;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -309,7 +317,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_lx = rx * 12;
+                            s_ly = ly * 12;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -321,7 +331,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_lx = rx * 12;
+                            s_ly = ly * 12;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -334,7 +346,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_lx = rx * 12;
+                                s_ly = ly * 12;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -345,7 +359,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_lx = rx * 12;
+                                s_ly = ly * 12;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -359,7 +375,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(6);
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_lx = rx * 12;
+                                s_ly = ly * 12;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -370,7 +388,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_lx = rx * 12;
+                                s_ly = ly * 12;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -382,7 +402,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight())) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_lx = rx * 12;
+                            s_ly = ly * 12;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -394,7 +416,9 @@ public class ControlActivity extends AppCompatActivity {
                         seek_ly.setProgress(3);
                         lx = seek_lx.getProgress();
                         ly = seek_ly.getProgress();
-                        before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                        s_lx = rx * 12;
+                        s_ly = ly * 12;
+                        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                         asdf.setText(send_blue);
                         sendMessage(before_send);
                 }
@@ -421,7 +445,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                             rx = seek_rx.getProgress();
                             ry = seek_ry.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_rx = rx * 12;
+                            s_ry = ry * 18;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -433,7 +459,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                             rx = seek_rx.getProgress();
                             ry = seek_ry.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_rx = rx * 12;
+                            s_ry = ry * 18;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -445,7 +473,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ry.setProgress(10);
                             rx = seek_rx.getProgress();
                             ry = seek_ry.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_rx = rx * 12;
+                            s_ry = ry * 18;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -457,7 +487,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ry.setProgress(10);
                             rx = seek_rx.getProgress();
                             ry = seek_ry.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_rx = rx * 12;
+                            s_ry = ry * 18;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -470,7 +502,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                                 rx = seek_rx.getProgress();
                                 ry = seek_ry.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_rx = rx * 12;
+                                s_ry = ry * 18;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -481,7 +515,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                                 rx = seek_rx.getProgress();
                                 ry = seek_ry.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_rx = rx * 12;
+                                s_ry = ry * 18;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -495,7 +531,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ry.setProgress(10);
                                 rx = seek_rx.getProgress();
                                 ry = seek_ry.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_rx = rx * 12;
+                                s_ry = ry * 18;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -506,7 +544,9 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                                 rx = seek_rx.getProgress();
                                 ry = seek_ry.getProgress();
-                                before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                                s_rx = rx * 12;
+                                s_ry = ry * 18;
+                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
                                 sendMessage(before_send);
                                 return true;
@@ -518,7 +558,9 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
                             rx = seek_rx.getProgress();
                             ry = seek_ry.getProgress();
-                            before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                            s_rx = rx * 12;
+                            s_ry = ry * 18;
+                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
                             sendMessage(before_send);
                             return true;
@@ -527,7 +569,8 @@ public class ControlActivity extends AppCompatActivity {
                         right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
                         seek_rx.setProgress(3);
                         rx = seek_rx.getProgress();
-                        before_send = "<" + ry + " " + ly + " " + lx + " " + rx + " " + ao + " " + ad + " " + ld + ">";
+                        s_rx = rx * 12;
+                        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                         asdf.setText(send_blue);
                         sendMessage(before_send);
                 }
