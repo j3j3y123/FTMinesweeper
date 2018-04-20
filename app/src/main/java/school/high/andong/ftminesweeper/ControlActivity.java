@@ -65,10 +65,10 @@ public class ControlActivity extends AppCompatActivity {
     int ao = 0; //오토파일럿 On, Off 값
     int ad = 70; //오토파일럿 각도 값
     int ld = 0; //이륙 모드 여부
-    int s_ry; //실제로 보내질 모터의 조종 값
-    int s_ly; //실제로 보내질 수평 꼬리 날개 서보의 조종 값
-    int s_lx; //실제로 보내질 주 날개 서보의 조종 값
-    int s_rx; //실제로 보내질 수직 꼬리 날개 서보의 조종 값
+    int s_ry = ry * 18; //실제로 보내질 모터의 조종 값
+    int s_ly = ly * 12; //실제로 보내질 수평 꼬리 날개 서보의 조종 값
+    int s_lx = lx * 12; //실제로 보내질 주 날개 서보의 조종 값
+    int s_rx = rx * 12; //실제로 보내질 수직 꼬리 날개 서보의 조종 값
     int finish;
 
     @Override
@@ -289,7 +289,7 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            s_lx = rx * 12;
+                            s_lx = lx * 12;
                             s_ly = ly * 12;
                             before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
@@ -303,7 +303,7 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            s_lx = rx * 12;
+                            s_lx = lx * 12;
                             s_ly = ly * 12;
                             before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
@@ -317,7 +317,7 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            s_lx = rx * 12;
+                            s_lx = lx * 12;
                             s_ly = ly * 12;
                             before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
@@ -331,7 +331,7 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(6);
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            s_lx = rx * 12;
+                            s_lx = lx * 12;
                             s_ly = ly * 12;
                             before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
@@ -346,7 +346,7 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                s_lx = rx * 12;
+                                s_lx = lx * 12;
                                 s_ly = ly * 12;
                                 before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
@@ -359,7 +359,7 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                s_lx = rx * 12;
+                                s_lx = lx * 12;
                                 s_ly = ly * 12;
                                 before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
@@ -375,7 +375,7 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(6);
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                s_lx = rx * 12;
+                                s_lx = lx * 12;
                                 s_ly = ly * 12;
                                 before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
@@ -388,7 +388,7 @@ public class ControlActivity extends AppCompatActivity {
                                 seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
                                 lx = seek_lx.getProgress();
                                 ly = seek_ly.getProgress();
-                                s_lx = rx * 12;
+                                s_lx = lx * 12;
                                 s_ly = ly * 12;
                                 before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                                 asdf.setText(send_blue);
@@ -402,7 +402,7 @@ public class ControlActivity extends AppCompatActivity {
                             seek_ly.setProgress(Math.abs(6 - Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight())) * 6)));
                             lx = seek_lx.getProgress();
                             ly = seek_ly.getProgress();
-                            s_lx = rx * 12;
+                            s_lx = lx * 12;
                             s_ly = ly * 12;
                             before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                             asdf.setText(send_blue);
@@ -416,7 +416,7 @@ public class ControlActivity extends AppCompatActivity {
                         seek_ly.setProgress(3);
                         lx = seek_lx.getProgress();
                         ly = seek_ly.getProgress();
-                        s_lx = rx * 12;
+                        s_lx = lx * 12;
                         s_ly = ly * 12;
                         before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
                         asdf.setText(send_blue);
