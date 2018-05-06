@@ -61,12 +61,14 @@ public class SettingActivity extends AppCompatActivity {
                 editor.putString("Main_Wing", main_wing.getText().toString());
                 editor.putString("Vertical_Wing", vertical_wing.getText().toString());
                 editor.putString("Horizontal_Wing", horizontal_wing.getText().toString());
-                editor.apply();
+                editor.commit();
 
                 Intent intent1 = new Intent(SettingActivity.this, ControlActivity.class);
-                intent1.putExtra("Main_Wing", MW);
-                intent1.putExtra("Vertical_Wing", VW);
-                intent1.putExtra("Horizontal_Wing", HW);
+                intent1.putExtra("Main_Wing", main_wing.getText().toString());
+                intent1.putExtra("Vertical_Wing", vertical_wing.getText().toString());
+                intent1.putExtra("Horizontal_Wing", horizontal_wing.getText().toString());
+                startActivity(intent1);
+                finish();
             }
         });
 

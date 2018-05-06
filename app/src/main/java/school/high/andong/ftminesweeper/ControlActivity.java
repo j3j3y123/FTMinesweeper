@@ -72,7 +72,6 @@ public class ControlActivity extends AppCompatActivity {
     int s_ly = ly * 12; //실제로 보내질 수평 꼬리 날개 서보의 조종 값
     int s_lx = lx * 12; //실제로 보내질 주 날개 서보의 조종 값
     int s_rx = rx * 12; //실제로 보내질 수직 꼬리 날개 서보의 조종 값
-    int finish;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -91,10 +90,10 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_control);
 
-        Intent intent1 = getIntent();
-        MW = intent1.getStringExtra("Main_Wing");
-        VW = intent1.getStringExtra("Vertical_Wing");
-        HW = intent1.getStringExtra("Horizontal_Wing");
+        Intent intent = new Intent(this.getIntent());
+        MW = intent.getStringExtra("Main_Wing");
+        VW = intent.getStringExtra("Vertical_Wing");
+        HW = intent.getStringExtra("Horizontal_Wing");
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -103,8 +102,8 @@ public class ControlActivity extends AppCompatActivity {
         }
 
         if (!mBluetoothAdapter.isEnabled()) {
-            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(intent, REQUEST_BLUETOOTH_ENABLE);
+            Intent intent1 = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(intent1, REQUEST_BLUETOOTH_ENABLE);
         } else {
             showPairedDevicesListDialog();
         }

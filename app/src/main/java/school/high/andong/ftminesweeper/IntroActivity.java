@@ -22,6 +22,8 @@ public class IntroActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
+        pref = getSharedPreferences("Setting", MODE_PRIVATE);
+
         MW = pref.getString("Main_Wing", "0");
         VW = pref.getString("Vertical_Wing","0");
         HW = pref.getString("Horizontal_Wing", "0");
