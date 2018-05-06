@@ -52,6 +52,9 @@ public class ControlActivity extends AppCompatActivity {
     String send_blue; //블루투스에 전송될 문자열
     String before_send;
     String receiveMessage;
+    String MW;
+    String VW;
+    String HW;
 
     float left_oldX_value;
     float left_oldY_value;
@@ -86,8 +89,12 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.layout_control);
+
+        Intent intent1 = getIntent();
+        MW = intent1.getStringExtra("Main_Wing");
+        VW = intent1.getStringExtra("Vertical_Wing");
+        HW = intent1.getStringExtra("Horizontal_Wing");
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -151,8 +158,14 @@ public class ControlActivity extends AppCompatActivity {
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SettingActivity.class), true);
-
+                if (ry == 0) {
+                    Intent intent1 = new Intent(ControlActivity.this, SettingActivity.class);
+                    intent1.putExtra("Main_Wing", MW);
+                    intent1.putExtra("Vertical_Wing", VW);
+                    intent1.putExtra("Horizontal_Wing", HW);
+                    startActivity(intent1);
+                    finish();
+                }
             }
         });
 
@@ -818,14 +831,4 @@ public class ControlActivity extends AppCompatActivity {
             }
         }
     }
-
-    public void startActivity(Intent intent, boolean deleteThis) {
-        super.startActivity(intent);
-        if (deleteThis) {
-            finish = 0;
-        }
-    }
-    /*
-      다른 창을 열었을 때의 이 스크린의 명령
-     */
 }

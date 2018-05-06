@@ -1,25 +1,41 @@
 package school.high.andong.ftminesweeper;
 
-import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ResourceBundle;
 
-public class SettingActivity extends AppCompatActivity{
+import static android.view.KeyEvent.KEYCODE_BACK;
 
-    String s_value = "setting_value";
-    String string;
+public class SettingActivity extends AppCompatActivity {
+
+    String MW;
+    String VW;
+    String HW;
+
+    SharedPreferences pref;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KEYCODE_BACK:
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
+
+        pref = getSharedPreferences("Setting", MODE_PRIVATE);
 
         final Button btn_apply = findViewById(R.id.btn_apply);
         final Button btn_default = findViewById(R.id.btn_default);
@@ -28,30 +44,32 @@ public class SettingActivity extends AppCompatActivity{
         final EditText vertical_wing = findViewById(R.id.verticalwing);
         final EditText horizontal_wing = findViewById(R.id.horizontalwing);
 
+        Intent intent1 = getIntent();
+
+        MW = intent1.getStringExtra("Main_Wing");
+        VW = intent1.getStringExtra("Vertical_Wing");
+        HW = intent1.getStringExtra("Horizontal_Wing");
+
+        main_wing.setText(MW);
+        vertical_wing.setText(VW);
+        horizontal_wing.setText(HW);
+
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                string = "MW_" + main_wing.getText() + "/VW_" + vertical_wing.getText() + "/HW_" + horizontal_wing.getText();
-                FileOutputStream setting_value = null;
-                try {
-                    setting_value = openFileOutput(s_value, Context.MODE_PRIVATE);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    setting_value.write(string.getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    setting_value.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finish();
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("Main_Wing", main_wing.getText().toString());
+                editor.putString("Vertical_Wing", vertical_wing.getText().toString());
+                editor.putString("Horizontal_Wing", horizontal_wing.getText().toString());
+                editor.apply();
+
+                Intent intent1 = new Intent(SettingActivity.this, ControlActivity.class);
+                intent1.putExtra("Main_Wing", MW);
+                intent1.putExtra("Vertical_Wing", VW);
+                intent1.putExtra("Horizontal_Wing", HW);
             }
         });
-//
+
         btn_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
