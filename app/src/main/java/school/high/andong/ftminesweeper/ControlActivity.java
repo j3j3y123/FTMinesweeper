@@ -56,10 +56,7 @@ public class ControlActivity extends AppCompatActivity {
     String VW;
     String HW;
 
-    float left_oldX_value;
-    float left_oldY_value;
-    float right_oldX_value;
-    float right_oldY_value;
+    float left_oldX_value, left_oldY_value, right_oldX_value, right_oldY_value;
 
     int ry = 0; //모터의 조종 값
     int ly = 3; //수평 꼬리 날개 서보의 조종 값
