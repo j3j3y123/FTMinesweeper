@@ -6,7 +6,7 @@
     android:height="226.8dp">
     <path
         android:pathData="M10.4 96.9l3.8 -93.5 0 0 3.8 93.5 -3.8 18z"
-        android:fillColor="#00b0f0" />
+        android:fillColor="#ff0004" />
     <path
         android:pathData="M10.4 96.9l3.8 -93.5 0 0 3.8 93.5 -3.8 18z"
         android:strokeWidth="0.4887"

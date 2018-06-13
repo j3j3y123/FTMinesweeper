@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +42,15 @@ public class ControlActivity extends AppCompatActivity {
 
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
 
-    private Button connect_btn;
+    private Button connect_btn, stop_btn, setting_btn, exit_btn;
+    private ToggleButton land_btn;
+    LinearLayout device, all_lay, control_lay, button_lay, auto_lay;
+    View left_blank, right_blank;
+    RelativeLayout left_lay, right_lay, dash_lay;
+    ImageView left_btn, right_btn, dashboard_stick;
+    Switch auto_switch;
+    SeekBar auto_seekbar, lx_seekbar, ly_seekbar, rx_seekbar, ry_seekbar;
+    TextView auto_text;
 
     ConnectedTask mConnectedTask = null;
     static BluetoothAdapter mBluetoothAdapter;
@@ -87,10 +96,36 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_control);
 
-        Intent intent = new Intent(this.getIntent());
+        final Intent intent = new Intent(this.getIntent());
         MW = intent.getStringExtra("Main_Wing");
         VW = intent.getStringExtra("Vertical_Wing");
         HW = intent.getStringExtra("Horizontal_Wing");
+
+        connect_btn = findViewById(R.id.btn_connect);
+        land_btn = findViewById(R.id.btn_land);
+        stop_btn = findViewById(R.id.btn_stop);
+        setting_btn = findViewById(R.id.btn_setting);
+        exit_btn = findViewById(R.id.btn_exit);
+        auto_switch = findViewById(R.id.switch_auto);
+        auto_seekbar = findViewById(R.id.seekbar_auto);
+        auto_text = findViewById(R.id.text_auto);
+        device = findViewById(R.id.layout_device);
+        all_lay = findViewById(R.id.layout_all);
+        control_lay = findViewById(R.id.layout_control);
+        auto_lay = findViewById(R.id.layout_auto);
+        button_lay = findViewById(R.id.layout_button);
+        left_lay = findViewById(R.id.control_left);
+        right_lay = findViewById(R.id.control_right);
+        dash_lay = findViewById(R.id.control_dashboard);
+        left_blank = findViewById(R.id.left_blank);
+        right_blank = findViewById(R.id.right_blank);
+        left_btn = findViewById(R.id.control_left_btn);
+        right_btn = findViewById(R.id.control_right_btn);
+        dashboard_stick = findViewById(R.id.dashboard_stick);
+        lx_seekbar = findViewById(R.id.seekbar_lx);
+        ly_seekbar = findViewById(R.id.seekbar_ly);
+        rx_seekbar = findViewById(R.id.seekbar_rx);
+        ry_seekbar = findViewById(R.id.seekbar_ry);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -105,58 +140,50 @@ public class ControlActivity extends AppCompatActivity {
             showPairedDevicesListDialog();
         }
 
+        auto_text.setText("00°");
 
-        connect_btn = findViewById(R.id.btn_connect);
-        final ImageView left_btn = findViewById(R.id.left_btn);
-        final ImageView right_btn = findViewById(R.id.right_btn);
-
-        final Button stop_btn = findViewById(R.id.btn_stop);
-        final Button setting_btn = findViewById(R.id.btn_setting);
-        final Button exit_btn = findViewById(R.id.btn_exit);
-
-        final SeekBar auto_d = findViewById(R.id.auto_d);
-        final SeekBar seek_lx = findViewById(R.id.LX);
-        final SeekBar seek_ly = findViewById(R.id.LY);
-        final SeekBar seek_rx = findViewById(R.id.RX);
-        final SeekBar seek_ry = findViewById(R.id.RY);
-
-        final Switch auto_s = findViewById(R.id.auto_s);
-
-        final TextView auto_i = findViewById(R.id.auto_i);
-        final TextView asdf = findViewById(R.id.asdf);
-
-        final RelativeLayout left_layout = findViewById(R.id.layout_left);
-        final RelativeLayout right_layout = findViewById(R.id.layout_right);
-
-        final LinearLayout device = findViewById(R.id.layout_all);
-        final LinearLayout auto_layout = findViewById(R.id.layout_auto);
-        final LinearLayout stick_layout = findViewById(R.id.layout_stick);
-
-        final LinearLayout button_layout = findViewById(R.id.layout_button);
-
-        auto_i.setText("00°");
-
-        left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
-        left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
-        right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
-        right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
+        left_btn.setX(left_lay.getWidth() / 2 - left_btn.getWidth() / 2);
+        left_btn.setY(left_lay.getHeight() / 2 - left_btn.getHeight() / 2);
+        right_btn.setX(right_lay.getWidth() / 2 - left_btn.getWidth() / 2);
+        right_btn.setY(right_lay.getHeight() - right_btn.getHeight());
 
         connect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 showPairedDevicesListDialog();
                 sendMessage(before_send);
             }
         });
 
-        //연결 버튼 눌렀을 때의 명령
+        land_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ld = 1;
+                    beforesend();
+                } else {
+                    ld = 0;
+                    beforesend();
+                }
+            }
+        });
+
+        stop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                right_btn.setY(right_lay.getHeight() - right_btn.getHeight());
+                ry_seekbar.setProgress(0);
+                ry = ry_seekbar.getProgress();
+                beforesend();
+            }
+        });
 
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ry == 0) {
                     Intent intent1 = new Intent(ControlActivity.this, SettingActivity.class);
-                    intent1.putExtra("Main_Wing", MW);
+                    intent1.putExtra("Main_Wing", HW);
                     intent1.putExtra("Vertical_Wing", VW);
                     intent1.putExtra("Horizontal_Wing", HW);
                     startActivity(intent1);
@@ -164,45 +191,6 @@ public class ControlActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //설정 버튼 눌렀을때 설정으로 이동
-
-        stop_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                seek_ry.setProgress(0);
-                ry = seek_ry.getProgress();
-                s_ry = ry * 18;
-                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                asdf.setText(send_blue);
-                sendMessage(before_send);
-            }
-        });
-
-        //출력정지 버튼을 눌럿을때 RX 0으로
-
-        auto_s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    ao = 1;
-                    auto_i.setTextColor(Color.parseColor("#00a000"));
-                    before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                    asdf.setText(send_blue);
-                    sendMessage(before_send);
-                } else {
-                    ao = 0;
-                    auto_i.setTextColor(-1979711488);
-                    auto_d.setProgress(70);
-                    before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                    asdf.setText(send_blue);
-                    sendMessage(before_send);
-                }
-            }
-        });
-
-        //자동 주행 온/오프 설정
 
         exit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,71 +204,73 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
-        //나가기 버튼 설정
-
-        auto_d.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @SuppressLint("SetTextI18n")
+        auto_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ad = auto_d.getProgress();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ao = 1;
+                    auto_text.setTextColor(Color.parseColor("#00a000"));
+                    beforesend();
+                } else {
+                    ao = 0;
+                    auto_text.setTextColor(Color.parseColor("#00a000"));
+                    beforesend();
+                }
+            }
+        });
+
+        auto_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ad = auto_seekbar.getProgress();
                 if ((ad - 70) > 0 && (ad - 70) < 10) {
-                    auto_i.setText("0" + (ad - 70) + "°");
+                    auto_text.setText("0" + (ad - 70) + "°");
                 } else if ((ad - 70) < 0) {
                     if ((70 - ad) < 10) {
-                        auto_i.setText("-0" + (70 - ad) + "°");
+                        auto_text.setText("-0" + (70 - ad) + "°");
                     } else {
-                        auto_i.setText("-" + (70 - ad) + "°");
+                        auto_text.setText("-" + (70 - ad) + "°");
                     }
                 } else {
-                    auto_i.setText("" + (ad - 70) + "°");
+                    auto_text.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                asdf.setText(send_blue);
-                sendMessage(before_send);
+                beforesend();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                ad = auto_d.getProgress();
+                ad = auto_seekbar.getProgress();
                 if ((ad - 70) > 0 && (ad - 70) < 10) {
-                    auto_i.setText("0" + (ad - 70) + "°");
+                    auto_text.setText("0" + (ad - 70) + "°");
                 } else if ((ad - 70) < 0) {
                     if ((70 - ad) < 10) {
-                        auto_i.setText("-0" + (70 - ad) + "°");
+                        auto_text.setText("-0" + (70 - ad) + "°");
                     } else {
-                        auto_i.setText("-" + (70 - ad) + "°");
+                        auto_text.setText("-" + (70 - ad) + "°");
                     }
                 } else {
-                    auto_i.setText("" + (ad - 70) + "°");
+                    auto_text.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                asdf.setText(send_blue);
-                sendMessage(before_send);
+                beforesend();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ad = auto_d.getProgress();
+                ad = auto_seekbar.getProgress();
                 if ((ad - 70) > 0 && (ad - 70) < 10) {
-                    auto_i.setText("0" + (ad - 70) + "°");
+                    auto_text.setText("0" + (ad - 70) + "°");
                 } else if ((ad - 70) < 0) {
                     if ((70 - ad) < 10) {
-                        auto_i.setText("-0" + (70 - ad) + "°");
+                        auto_text.setText("-0" + (70 - ad) + "°");
                     } else {
-                        auto_i.setText("-" + (70 - ad) + "°");
+                        auto_text.setText("-" + (70 - ad) + "°");
                     }
                 } else {
-                    auto_i.setText("" + (ad - 70) + "°");
+                    auto_text.setText("" + (ad - 70) + "°");
                 }
-                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                asdf.setText(send_blue);
-                sendMessage(before_send);
+                beforesend();
             }
         });
-
-        /*
-          상단 자동 시크바를 움직일 때 옆에 있는 텍스트 값 변경
-        */
 
         left_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -290,305 +280,101 @@ public class ControlActivity extends AppCompatActivity {
                         left_oldX_value = event.getRawX();
                         left_oldY_value = event.getRawY();
                     case MotionEvent.ACTION_MOVE:
-                        if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
-                            left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
-                            left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
-                            lx = seek_lx.getProgress();
-                            ly = seek_ly.getProgress();
-                            s_lx = lx * 12;
-                            s_ly = ly * 12;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
+                        if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 + left_btn.getWidth() / 2 > left_lay.getWidth() &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) > left_lay.getHeight()) {
+                            left_btn.setX(left_lay.getWidth() - left_btn.getWidth());
+                            lx_seekbar.setProgress(Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
+                            left_btn.setY(left_lay.getWidth() - left_btn.getWidth());
+                            ly_seekbar.setProgress(Math.abs(6 - Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                            beforesend();
                             return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) > left_lay.getHeight()) {
                             left_btn.setX(0);
-                            seek_lx.setProgress(0);
-                            left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
-                            lx = seek_lx.getProgress();
-                            ly = seek_ly.getProgress();
-                            s_lx = lx * 12;
-                            s_ly = ly * 12;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
+                            lx_seekbar.setProgress(0);
+                            left_btn.setY(left_lay.getWidth() - left_btn.getWidth());
+                            ly_seekbar.setProgress(Math.abs(6 - Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                            beforesend();
                             return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
-                            left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                            seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 + left_btn.getWidth() / 2 > left_lay.getWidth() &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight() < 0) {
+                            left_btn.setX(left_lay.getWidth() - left_btn.getWidth());
+                            lx_seekbar.setProgress(Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
                             left_btn.setY(0);
-                            seek_ly.setProgress(6);
-                            lx = seek_lx.getProgress();
-                            ly = seek_ly.getProgress();
-                            s_lx = lx * 12;
-                            s_ly = ly * 12;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
+                            ly_seekbar.setProgress(6);
+                            beforesend();
                             return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight() < 0) {
                             left_btn.setX(0);
-                            seek_lx.setProgress(0);
+                            lx_seekbar.setProgress(0);
                             left_btn.setY(0);
-                            seek_ly.setProgress(6);
-                            lx = seek_lx.getProgress();
-                            ly = seek_ly.getProgress();
-                            s_lx = lx * 12;
-                            s_ly = ly * 12;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
+                            ly_seekbar.setProgress(6);
+                            beforesend();
                             return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0 ||
-                                event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) + left_btn.getWidth() / 2 > left_layout.getWidth()) {
-                            if (event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2 < 0) {
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2 < 0 ||
+                                event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 + left_btn.getWidth() / 2 > left_lay.getWidth()) {
+                            if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2 < 0) {
                                 left_btn.setX(0);
-                                seek_lx.setProgress(0);
-                                left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
-                                lx = seek_lx.getProgress();
-                                ly = seek_ly.getProgress();
-                                s_lx = lx * 12;
-                                s_ly = ly * 12;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
+                                lx_seekbar.setProgress(0);
+                                left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
+                                ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                                beforesend();
                                 return true;
                             } else {
-                                left_btn.setX(left_layout.getWidth() - left_btn.getWidth());
-                                seek_lx.setProgress(Math.round((left_layout.getWidth() - left_btn.getWidth()) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
-                                left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
-                                lx = seek_lx.getProgress();
-                                ly = seek_ly.getProgress();
-                                s_lx = lx * 12;
-                                s_ly = ly * 12;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
+                                left_btn.setX(left_lay.getWidth() - left_btn.getWidth());
+                                lx_seekbar.setProgress(Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
+                                left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
+                                ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                                beforesend();
                                 return true;
                             }
-                        } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0 ||
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) > left_layout.getHeight()) {
-                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight() < 0) {
-                                left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
+                        } else if (event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight() < 0 ||
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) > left_lay.getHeight()) {
+                            if (event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight() < 0) {
+                                left_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2);
+                                lx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
                                 left_btn.setY(0);
-                                seek_ly.setProgress(6);
-                                lx = seek_lx.getProgress();
-                                ly = seek_ly.getProgress();
-                                s_lx = lx * 12;
-                                s_ly = ly * 12;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
+                                ly_seekbar.setProgress(6);
+                                beforesend();
                                 return true;
                             } else {
-                                left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                                seek_lx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2) / (left_layout.getWidth() - left_btn.getWidth()) * 6));
-                                left_btn.setY(left_layout.getHeight() - left_btn.getHeight());
-                                seek_ly.setProgress(Math.abs(6 - Math.round((left_layout.getHeight() - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight()) * 6)));
-                                lx = seek_lx.getProgress();
-                                ly = seek_ly.getProgress();
-                                s_lx = lx * 12;
-                                s_ly = ly * 12;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
+                                left_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2);
+                                lx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
+                                left_btn.setY(left_lay.getWidth() - left_btn.getWidth());
+                                ly_seekbar.setProgress(Math.abs(6 - Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                                beforesend();
                                 return true;
                             }
                         } else {
-                            left_btn.setX(event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2);
-                            seek_lx.setProgress(Math.round((((event.getRawX() - ((device.getWidth() / 2) - (button_layout.getWidth() / 2) - left_layout.getWidth()) - left_btn.getWidth() / 2)) / (left_layout.getWidth() - left_btn.getWidth())) * 6));
-                            left_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight());
-                            seek_ly.setProgress(Math.abs(6 - Math.round(((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (left_layout.getHeight() / 2)) - left_btn.getHeight()) / (left_layout.getHeight() - left_btn.getHeight())) * 6)));
-                            lx = seek_lx.getProgress();
-                            ly = seek_ly.getProgress();
-                            s_lx = lx * 12;
-                            s_ly = ly * 12;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
+                            left_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2);
+                            lx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
+                            left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
+                            ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                            beforesend();
                             return true;
                         }
                     case MotionEvent.ACTION_UP:
-                        left_btn.setX(left_layout.getWidth() / 2 - left_btn.getWidth() / 2);
-                        left_btn.setY(left_layout.getHeight() / 2 - left_btn.getHeight() / 2);
-                        seek_lx.setProgress(3);
-                        seek_ly.setProgress(3);
-                        lx = seek_lx.getProgress();
-                        ly = seek_ly.getProgress();
-                        s_lx = lx * 12;
-                        s_ly = ly * 12;
-                        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                        asdf.setText(send_blue);
-                        sendMessage(before_send);
+                        left_btn.setX(left_lay.getWidth() / 2 - left_btn.getWidth() / 2);
+                        left_btn.setY(left_lay.getHeight() / 2 - left_btn.getHeight() / 2);
+                        lx_seekbar.setProgress(3);
+                        ly_seekbar.setProgress(3);
+                        beforesend();
+                        return true;
                 }
                 return true;
             }
         });
-        /*
-          좌측 조이스틱 움직임
-         */
+    }
 
-        right_btn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View right_view, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        right_oldX_value = event.getRawX();
-                        right_oldY_value = event.getRawY();
-                    case MotionEvent.ACTION_MOVE:
-                        if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
-                            right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                            right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                            rx = seek_rx.getProgress();
-                            ry = seek_ry.getProgress();
-                            s_rx = rx * 12;
-                            s_ry = ry * 18;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
-                            return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
-                            right_btn.setX(0);
-                            seek_rx.setProgress(0);
-                            right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                            rx = seek_rx.getProgress();
-                            ry = seek_ry.getProgress();
-                            s_rx = rx * 12;
-                            s_ry = ry * 18;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
-                            return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth() &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
-                            right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                            seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                            right_btn.setY(0);
-                            seek_ry.setProgress(10);
-                            rx = seek_rx.getProgress();
-                            ry = seek_ry.getProgress();
-                            s_rx = rx * 12;
-                            s_ry = ry * 18;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
-                            return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 &&
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
-                            right_btn.setX(0);
-                            seek_rx.setProgress(0);
-                            right_btn.setY(0);
-                            seek_ry.setProgress(10);
-                            rx = seek_rx.getProgress();
-                            ry = seek_ry.getProgress();
-                            s_rx = rx * 12;
-                            s_ry = ry * 18;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
-                            return true;
-                        } else if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0 ||
-                                event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) + right_btn.getWidth() / 2 > right_layout.getWidth()) {
-                            if (event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2 < 0) {
-                                right_btn.setX(0);
-                                seek_rx.setProgress(0);
-                                right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                                rx = seek_rx.getProgress();
-                                ry = seek_ry.getProgress();
-                                s_rx = rx * 12;
-                                s_ry = ry * 18;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
-                                return true;
-                            } else {
-                                right_btn.setX(right_layout.getWidth() - right_btn.getWidth());
-                                seek_rx.setProgress(Math.round((right_layout.getWidth() - right_btn.getWidth()) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                                right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                                rx = seek_rx.getProgress();
-                                ry = seek_ry.getProgress();
-                                s_rx = rx * 12;
-                                s_ry = ry * 18;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
-                                return true;
-                            }
-                        } else if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0 ||
-                                event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) > right_layout.getHeight()) {
-                            if (event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight() < 0) {
-                                right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                                right_btn.setY(0);
-                                seek_ry.setProgress(10);
-                                rx = seek_rx.getProgress();
-                                ry = seek_ry.getProgress();
-                                s_rx = rx * 12;
-                                s_ry = ry * 18;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
-                                return true;
-                            } else {
-                                right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                                seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                                right_btn.setY(right_layout.getHeight() - right_btn.getHeight());
-                                seek_ry.setProgress(Math.abs(10 - Math.round((right_layout.getHeight() - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                                rx = seek_rx.getProgress();
-                                ry = seek_ry.getProgress();
-                                s_rx = rx * 12;
-                                s_ry = ry * 18;
-                                before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                                asdf.setText(send_blue);
-                                sendMessage(before_send);
-                                return true;
-                            }
-                        } else {
-                            right_btn.setX(event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2);
-                            seek_rx.setProgress(Math.round((event.getRawX() - ((device.getWidth() / 2) + (button_layout.getWidth() / 2)) - right_btn.getWidth() / 2) / (right_layout.getWidth() - right_btn.getWidth()) * 6));
-                            right_btn.setY(event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight());
-                            seek_ry.setProgress(Math.abs(10 - Math.round((event.getRawY() - ((stick_layout.getHeight() / 2) + auto_layout.getHeight() - (right_layout.getHeight() / 2)) - right_btn.getHeight()) / (right_layout.getHeight() - right_btn.getHeight()) * 10)));
-                            rx = seek_rx.getProgress();
-                            ry = seek_ry.getProgress();
-                            s_rx = rx * 12;
-                            s_ry = ry * 18;
-                            before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                            asdf.setText(send_blue);
-                            sendMessage(before_send);
-                            return true;
-                        }
-                    case MotionEvent.ACTION_UP:
-                        right_btn.setX(right_layout.getWidth() / 2 - right_btn.getWidth() / 2);
-                        seek_rx.setProgress(3);
-                        rx = seek_rx.getProgress();
-                        s_rx = rx * 12;
-                        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
-                        asdf.setText(send_blue);
-                        sendMessage(before_send);
-                }
-                return true;
-            }
-        });
-        /*
-          우측 조이스틱 움직임
-         */
+    private void beforesend() {
+        lx = lx_seekbar.getProgress();
+        ly = ly_seekbar.getProgress();
+        s_ly = ly * 12;
+        s_lx = lx * 12;
+        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
+        auto_text.setText(before_send);
+        sendMessage(before_send);
     }
 
     @Override
