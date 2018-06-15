@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +45,7 @@ public class ControlActivity extends AppCompatActivity {
 
     private Button connect_btn, stop_btn, setting_btn, exit_btn;
     private ToggleButton land_btn;
-    LinearLayout device, all_lay, control_lay, button_lay, auto_lay;
+    LinearLayout device, all_lay, control_lay, button_lay, auto_lay, seek_lay;
     View left_blank, right_blank;
     RelativeLayout left_lay, right_lay, dash_lay;
     ImageView left_btn, right_btn, dashboard_stick;
@@ -77,7 +78,9 @@ public class ControlActivity extends AppCompatActivity {
     int s_ry = ry * 18; //실제로 보내질 모터의 조종 값
     int s_ly = ly * 12; //실제로 보내질 수평 꼬리 날개 서보의 조종 값
     int s_lx = lx * 12; //실제로 보내질 주 날개 서보의 조종 값
-    int s_rx = rx * 12; //실제로 보내질 수직 꼬리 날개 서보의 조종 값
+    int s_rx = rx * 12; //실제로 보내질 수직 꼬리 날개 서보의 조종
+    int first = 0;
+    int m_w, v_w, h_w;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -100,6 +103,10 @@ public class ControlActivity extends AppCompatActivity {
         MW = intent.getStringExtra("Main_Wing");
         VW = intent.getStringExtra("Vertical_Wing");
         HW = intent.getStringExtra("Horizontal_Wing");
+
+        m_w = Integer.parseInt(MW);
+        v_w = Integer.parseInt(VW);
+        h_w = Integer.parseInt(HW);
 
         connect_btn = findViewById(R.id.btn_connect);
         land_btn = findViewById(R.id.btn_land);
@@ -126,6 +133,7 @@ public class ControlActivity extends AppCompatActivity {
         ly_seekbar = findViewById(R.id.seekbar_ly);
         rx_seekbar = findViewById(R.id.seekbar_rx);
         ry_seekbar = findViewById(R.id.seekbar_ry);
+        seek_lay = findViewById(R.id.layout_seek);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -150,8 +158,12 @@ public class ControlActivity extends AppCompatActivity {
         connect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPairedDevicesListDialog();
-                sendMessage(before_send);
+                if (mConnectedTask != null) {
+                    mConnectedTask.closeSocket();
+                } else {
+                    showPairedDevicesListDialog();
+                    sendMessage(before_send);
+                }
             }
         });
 
@@ -213,7 +225,7 @@ public class ControlActivity extends AppCompatActivity {
                     beforesend();
                 } else {
                     ao = 0;
-                    auto_text.setTextColor(Color.parseColor("#00a000"));
+                    auto_text.setTextColor(Color.parseColor("#000000"));
                     beforesend();
                 }
             }
@@ -318,14 +330,14 @@ public class ControlActivity extends AppCompatActivity {
                                 left_btn.setX(0);
                                 lx_seekbar.setProgress(0);
                                 left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
-                                ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                                ly_seekbar.setProgress(Math.abs(6 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
                                 beforesend();
                                 return true;
                             } else {
                                 left_btn.setX(left_lay.getWidth() - left_btn.getWidth());
                                 lx_seekbar.setProgress(Math.round((left_lay.getWidth() - left_btn.getWidth()) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
                                 left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
-                                ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                                ly_seekbar.setProgress(Math.abs(6 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
                                 beforesend();
                                 return true;
                             }
@@ -350,7 +362,7 @@ public class ControlActivity extends AppCompatActivity {
                             left_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2);
                             lx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_btn.getWidth() / 2) / (left_lay.getWidth() - left_btn.getWidth()) * 6));
                             left_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight());
-                            ly_seekbar.setProgress(Math.abs(Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
+                            ly_seekbar.setProgress(Math.abs(6 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + left_lay.getY()) - left_btn.getHeight()) / (left_lay.getHeight() - left_btn.getHeight()) * 6)));
                             beforesend();
                             return true;
                         }
@@ -365,16 +377,113 @@ public class ControlActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        right_btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        right_oldX_value = event.getRawX();
+                        right_oldY_value = event.getRawY();
+                    case MotionEvent.ACTION_MOVE:
+                        if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() + right_btn.getWidth() / 2 > right_lay.getWidth() &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) > right_lay.getHeight()) {
+                            right_btn.setX(right_lay.getWidth() - right_btn.getWidth());
+                            rx_seekbar.setProgress(Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                            right_btn.setY(right_lay.getWidth() - right_btn.getWidth());
+                            ry_seekbar.setProgress(Math.abs(10 - Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                            beforesend();
+                            return true;
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) > right_lay.getHeight()) {
+                            right_btn.setX(0);
+                            rx_seekbar.setProgress(0);
+                            right_btn.setY(right_lay.getWidth() - right_btn.getWidth());
+                            ry_seekbar.setProgress(Math.abs(10 - Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                            beforesend();
+                            return true;
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() + right_btn.getWidth() / 2 > right_lay.getWidth() &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight() < 0) {
+                            right_btn.setX(right_lay.getWidth() - right_btn.getWidth());
+                            rx_seekbar.setProgress(Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                            right_btn.setY(0);
+                            ry_seekbar.setProgress(10);
+                            beforesend();
+                            return true;
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2 < 0 &&
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight() < 0) {
+                            right_btn.setX(0);
+                            rx_seekbar.setProgress(0);
+                            right_btn.setY(0);
+                            ry_seekbar.setProgress(10);
+                            beforesend();
+                            return true;
+                        } else if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2 < 0 ||
+                                event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() + right_btn.getWidth() / 2 > right_lay.getWidth()) {
+                            if (event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2 < 0) {
+                                right_btn.setX(0);
+                                rx_seekbar.setProgress(0);
+                                right_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight());
+                                ry_seekbar.setProgress(Math.abs(10 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                                beforesend();
+                                return true;
+                            } else {
+                                right_btn.setX(right_lay.getWidth() - right_btn.getWidth());
+                                rx_seekbar.setProgress(Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                                right_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight());
+                                ry_seekbar.setProgress(Math.abs(10 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                                beforesend();
+                                return true;
+                            }
+                        } else if (event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight() < 0 ||
+                                event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) > right_lay.getHeight()) {
+                            if (event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight() < 0) {
+                                right_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2);
+                                rx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                                right_btn.setY(0);
+                                ry_seekbar.setProgress(10);
+                                beforesend();
+                                return true;
+                            } else {
+                                right_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2);
+                                rx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                                right_btn.setY(right_lay.getWidth() - right_btn.getWidth());
+                                ry_seekbar.setProgress(Math.abs(10 - Math.round((right_lay.getWidth() - right_btn.getWidth()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                                beforesend();
+                                return true;
+                            }
+                        } else {
+                            right_btn.setX(event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2);
+                            rx_seekbar.setProgress(Math.round((event.getRawX() - (device.getWidth() - all_lay.getWidth()) / 2 - left_blank.getWidth() - right_blank.getWidth() - dash_lay.getWidth() - left_lay.getWidth() - right_btn.getWidth() / 2) / (right_lay.getWidth() - right_btn.getWidth()) * 6));
+                            right_btn.setY(event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight());
+                            ry_seekbar.setProgress(Math.abs(10 - Math.round((event.getRawY() - (all_lay.getY() + auto_lay.getHeight() + right_lay.getY()) - right_btn.getHeight()) / (right_lay.getHeight() - right_btn.getHeight()) * 10)));
+                            beforesend();
+                            return true;
+                        }
+                    case MotionEvent.ACTION_UP:
+                        right_btn.setX(right_lay.getWidth() / 2 - right_btn.getWidth() / 2);
+                        rx_seekbar.setProgress(3);
+                        beforesend();
+                        return true;
+                }
+                return true;
+            }
+        });
     }
 
     private void beforesend() {
+        rx = rx_seekbar.getProgress();
+        ry = ry_seekbar.getProgress();
         lx = lx_seekbar.getProgress();
         ly = ly_seekbar.getProgress();
-        s_ly = ly * 12;
-        s_lx = lx * 12;
+        s_ly = ly * 26 + h_w;
+        s_lx = lx * 30 + m_w;
+        s_rx = rx * 20 + v_w;
+        s_ry = ry * 13;
         before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
         auto_text.setText(before_send);
         sendMessage(before_send);
+        dashboard_stick.setRotation(ry_seekbar.getProgress() * 24 - 120);
     }
 
     @Override
@@ -597,8 +706,18 @@ public class ControlActivity extends AppCompatActivity {
 
     void sendMessage(String msg) {
         if (mConnectedTask != null && !before_send.equals(send_blue)) {
-            mConnectedTask.write(msg);
-            send_blue = msg;
+            if (first == 0) {
+                s_ly = 3 * 26 + h_w;
+                s_lx = 3 * 30 + m_w;
+                s_rx = 3 * 20 + v_w;
+                s_ry = 0;
+                mConnectedTask.write("<I" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">");
+                first = 1;
+            } else {
+                first = 1;
+                mConnectedTask.write(msg);
+                send_blue = msg;
+            }
         }
     }
 

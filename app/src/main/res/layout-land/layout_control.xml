@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_margin="10dp">
 
 
         <LinearLayout
@@ -100,7 +100,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:background="@drawable/back"
-                android:gravity="center">
+                android:gravity="center|bottom">
 
                 <ImageView
                     android:id="@+id/control_right_btn"
@@ -129,7 +129,9 @@
                 android:id="@+id/btn_land"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textOff="@string/switch_fly"
+                android:textOn="@string/switch_land" />
 
             <Button
                 android:id="@+id/btn_stop"
@@ -155,8 +157,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_seek"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:visibility="gone">
 
         <SeekBar
