@@ -195,7 +195,7 @@ public class ControlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (ry == 0) {
                     Intent intent1 = new Intent(ControlActivity.this, SettingActivity.class);
-                    intent1.putExtra("Main_Wing", HW);
+                    intent1.putExtra("Main_Wing", MW);
                     intent1.putExtra("Vertical_Wing", VW);
                     intent1.putExtra("Horizontal_Wing", HW);
                     startActivity(intent1);
