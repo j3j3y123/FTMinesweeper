@@ -480,7 +480,7 @@ public class ControlActivity extends AppCompatActivity {
         s_lx = lx * 30 + m_w;
         s_rx = rx * 20 + v_w;
         s_ry = ry * 13;
-        before_send = "<" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">";
+        before_send = "M" + s_ry + "P" + s_ly + "R" + s_lx + "Y" + s_rx + "A" + ao + "D" + ad + "L" + ld ;
         auto_text.setText(before_send);
         sendMessage(before_send);
         dashboard_stick.setRotation(ry_seekbar.getProgress() * 24 - 120);
@@ -711,12 +711,13 @@ public class ControlActivity extends AppCompatActivity {
                 s_lx = 3 * 30 + m_w;
                 s_rx = 3 * 20 + v_w;
                 s_ry = 0;
-                mConnectedTask.write("<I" + s_ry + " " + s_ly + " " + s_lx + " " + s_rx + " " + ao + " " + ad + " " + ld + ">");
+                mConnectedTask.write("M" + s_ry + "P" + s_ly + "R" + s_lx + "Y" + s_rx + "A" + ao + "D" + ad + "L" + ld );
                 first = 1;
             } else {
                 first = 1;
                 mConnectedTask.write(msg);
                 send_blue = msg;
+                auto_text.setText(send_blue);
             }
         }
     }
